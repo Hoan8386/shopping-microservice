@@ -1,0 +1,68 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: gateway-service
+  data:
+    redis:
+      port: 6379
+      host: localhost
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        # Public routes - NO authentication required (phải đặt trước để match trước)
+        - id: userservice-public
+          uri: lb://userservice
+          predicates:
+            - Path=/api/v1/public/**
+          filters:
+            # Không có KeyAuthFilter cho public endpoints
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 10
+                redis-rate-limiter.burstCapacity: 20
+                redis-rate-limiter.requestedTokens: 1
+
+        # Protected routes - Authentication required
+        - id: userservice-protected
+          uri: lb://userservice
+          predicates:
+            - Path=/api/v1/users/**
+          filters:
+            - name: KeyAuthFilter
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 10
+                redis-rate-limiter.burstCapacity: 20
+                redis-rate-limiter.requestedTokens: 1
+
+        - id: movies
+          uri: lb://movies
+          predicates:
+            - Path=/api/v1/movies/**
+          filters:
+            - name: KeyAuthFilter
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 10
+                redis-rate-limiter.burstCapacity: 20
+                redis-rate-limiter.requestedTokens: 1
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8180/realms/Cinema
+eureka:
+  instance:
+    name: localhost
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+      register-with-eureka: true
+      fetch-registry: true
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
