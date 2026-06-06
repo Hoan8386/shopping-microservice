@@ -17,7 +17,7 @@ public class ExceptionAdvice {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorMessage> handleException(Exception e) {
-        return new ResponseEntity<>(new ErrorMessage("9999", e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR),
+        return new ResponseEntity<>(new ErrorMessage("500", e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR),
                 HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

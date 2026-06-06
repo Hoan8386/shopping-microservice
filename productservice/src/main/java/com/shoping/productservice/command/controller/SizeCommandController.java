@@ -16,6 +16,8 @@ import com.shoping.productservice.command.command.SizeDeleteCommand;
 import com.shoping.productservice.command.command.SizeUpdateCommand;
 import com.shoping.productservice.command.model.SizeRequestModel;
 
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -30,7 +32,7 @@ public class SizeCommandController {
 
     @PostMapping()
     @ApiMessage("Create size")
-    public ResponseEntity<ResponseId> createSize(@RequestBody SizeRequestModel sizeRequestModel) {
+    public ResponseEntity<ResponseId> createSize(@Valid @RequestBody SizeRequestModel sizeRequestModel) {
 
         SizeCreateCommand sizeCreateCommand = new SizeCreateCommand(
                 UUID.randomUUID().toString(),

@@ -10,6 +10,8 @@ import org.springframework.beans.BeanUtils;
 import com.shoping.productservice.command.command.CreateProductDetailCommand;
 import com.shoping.productservice.command.command.DeleteProductDetailCommand;
 import com.shoping.productservice.command.command.UpdateProductDetailCommand;
+import com.shoping.productservice.command.data.ProductRepository;
+import com.shoping.productservice.command.data.SizeRepository;
 import com.shoping.productservice.command.event.ProductDetailCreateEvent;
 import com.shoping.productservice.command.event.ProductDetailDeleteEvent;
 import com.shoping.productservice.command.event.ProductDetailUpdateEvent;
@@ -39,10 +41,23 @@ public class ProductDetailAggregate {
     private Boolean status;
 
     @CommandHandler
-    public ProductDetailAggregate(CreateProductDetailCommand command) {
-        ProductDetailCreateEvent createEvent = new ProductDetailCreateEvent();
-        BeanUtils.copyProperties(command, createEvent);
-        AggregateLifecycle.apply(createEvent);
+    public ProductDetailAggregate(
+            CreateProductDetailCommand command,
+            ProductRepository productRepository,
+            SizeRepository sizeRepository) {
+
+        if (!productRepository.existsById(command.getProductId())) {
+            throw new RuntimeException("Product not found");
+        }
+
+        if (!sizeRepository.existsById(command.getSizeId())) {
+            throw new RuntimeException("Size not found");
+        }
+
+        ProductDetailCreateEvent event = new ProductDetailCreateEvent();
+        BeanUtils.copyProperties(command, event);
+
+        AggregateLifecycle.apply(event);
     }
 
     @CommandHandler

@@ -17,6 +17,8 @@ import com.shoping.productservice.command.command.DeleteProductCommand;
 import com.shoping.productservice.command.command.UpdateCategoryCommand;
 import com.shoping.productservice.command.model.CategoryRequestModel;
 
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,7 +32,7 @@ public class CategoryCommandController {
 
     @PostMapping
     @ApiMessage("Create category")
-    public ResponseEntity<ResponseId> createCategory(@RequestBody CategoryRequestModel categoryRequestModel) {
+    public ResponseEntity<ResponseId> createCategory(@Valid @RequestBody CategoryRequestModel categoryRequestModel) {
 
         CreateCategoryCommand categoryCommand = new CreateCategoryCommand(
                 UUID.randomUUID().toString(),

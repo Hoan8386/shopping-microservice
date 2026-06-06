@@ -21,6 +21,8 @@ import com.shoping.productservice.command.command.DeleteProductDetailCommand;
 import com.shoping.productservice.command.command.UpdateProductDetailCommand;
 import com.shoping.productservice.command.model.ProductDetailRequestModel;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/product-details")
 public class ProductDetailCommandController {
@@ -29,7 +31,7 @@ public class ProductDetailCommandController {
 
     @PostMapping
     @ApiMessage("Create product detail")
-    public ResponseEntity<ResponseId> createProductDetail(@RequestBody ProductDetailRequestModel requestModel) {
+    public ResponseEntity<ResponseId> createProductDetail(@Valid @RequestBody ProductDetailRequestModel requestModel) {
         CreateProductDetailCommand command = new CreateProductDetailCommand(
                 UUID.randomUUID().toString(),
                 requestModel.getProductId(),

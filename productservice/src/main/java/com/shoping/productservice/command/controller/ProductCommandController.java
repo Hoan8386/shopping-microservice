@@ -19,6 +19,8 @@ import com.shoping.productservice.command.command.DeleteProductCommand;
 import com.shoping.productservice.command.command.UpdateProductCommand;
 import com.shoping.productservice.command.model.ProductRequestModel;
 
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,7 +46,7 @@ public class ProductCommandController {
 
     @PostMapping
     @ApiMessage("Create product")
-    public ResponseEntity<ResponseId> createProduct(@RequestBody ProductRequestModel productRequestModel) {
+    public ResponseEntity<ResponseId> createProduct(@Valid @RequestBody ProductRequestModel productRequestModel) {
         CreateProductCommand command = new CreateProductCommand(
                 UUID.randomUUID().toString(),
                 productRequestModel.getName(),

@@ -29,16 +29,10 @@ public class ProductDetail {
     private Size size;
 
     // Số lượng theo từng size
-    @NotNull(message = "Quantity must not be null")
-    @Min(value = 0, message = "Quantity must be greater than or equal to 0")
     private Integer quantity;
 
     // Giá riêng nếu size có giá khác nhau
     private Double price;
-
-    // SKU riêng cho từng biến thể
-    // @Column(unique = true)
-    // private String sku;
 
     // Trạng thái
     private Boolean status;
