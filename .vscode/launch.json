@@ -1,24 +1,40 @@
 {
-    "configurations": [
-        {
-            "type": "java",
-            "name": "Spring Boot-DiscoveryserverApplication<discoveryserver>",
-            "request": "launch",
-            "cwd": "${workspaceFolder}",
-            "mainClass": "com.shoping.discoveryserver.DiscoveryserverApplication",
-            "projectName": "discoveryserver",
-            "args": "",
-            "envFile": "${workspaceFolder}/.env"
-        },
-        {
-            "type": "java",
-            "name": "Spring Boot-ProductserviceApplication<productservice>",
-            "request": "launch",
-            "cwd": "${workspaceFolder}",
-            "mainClass": "com.shoping.productservice.ProductserviceApplication",
-            "projectName": "productservice",
-            "args": "",
-            "envFile": "${workspaceFolder}/.env"
-        }
-    ]
+  "configurations": [
+    {
+      "type": "java",
+      "name": "EmployeeserviceApplication",
+      "request": "launch",
+      "mainClass": "com.shoping.employeeservice.EmployeeserviceApplication"
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-DiscoveryserverApplication<discoveryserver>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.shoping.discoveryserver.DiscoveryserverApplication",
+      "projectName": "discoveryserver",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-ProductserviceApplication<productservice>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.shoping.productservice.ProductserviceApplication",
+      "projectName": "productservice",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-EmployeeserviceApplication<employeeservice>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.shoping.employeeservice.EmployeeserviceApplication",
+      "projectName": "employeeservice",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
 }

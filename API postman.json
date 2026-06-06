@@ -545,6 +545,175 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "employee",
+      "item": [
+        {
+          "name": "Get All Employees",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{employeeBaseUrl}}/api/v1/employees",
+              "host": [
+                "{{employeeBaseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Employee Detail",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{employeeBaseUrl}}/api/v1/employees/{{employeeId}}",
+              "host": [
+                "{{employeeBaseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "{{employeeId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Filter Employees",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{employeeBaseUrl}}/api/v1/employees/filter?firstName=&lastName=&email=&isDisciplined=",
+              "host": [
+                "{{employeeBaseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "filter"
+              ],
+              "query": [
+                {
+                  "key": "firstName",
+                  "value": ""
+                },
+                {
+                  "key": "lastName",
+                  "value": ""
+                },
+                {
+                  "key": "email",
+                  "value": ""
+                },
+                {
+                  "key": "isDisciplined",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Employee",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Nguyen\",\n  \"lastName\": \"Van A\",\n  \"kin\": \"EMP-001\",\n  \"isDisciplined\": false,\n  \"email\": \"nguyenvana@example.com\",\n  \"address\": \"123 Main Street, Ho Chi Minh City\",\n  \"avatar\": \"https://example.com/avatar.png\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{employeeBaseUrl}}/api/v1/employees",
+              "host": [
+                "{{employeeBaseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Employee",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Nguyen\",\n  \"lastName\": \"Van B\",\n  \"kin\": \"EMP-001\",\n  \"isDisciplined\": true,\n  \"email\": \"nguyenvanb@example.com\",\n  \"address\": \"456 Updated Street, Ho Chi Minh City\",\n  \"avatar\": \"https://example.com/avatar-updated.png\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{employeeBaseUrl}}/api/v1/employees/{{employeeId}}",
+              "host": [
+                "{{employeeBaseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "{{employeeId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Employee",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{employeeBaseUrl}}/api/v1/employees/{{employeeId}}",
+              "host": [
+                "{{employeeBaseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "{{employeeId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "variable": [
@@ -567,6 +736,14 @@
     {
       "key": "productDetailId",
       "value": "replace-with-product-detail-id"
+    },
+    {
+      "key": "employeeBaseUrl",
+      "value": "http://localhost:9003"
+    },
+    {
+      "key": "employeeId",
+      "value": "replace-with-employee-id"
     }
   ]
 }
