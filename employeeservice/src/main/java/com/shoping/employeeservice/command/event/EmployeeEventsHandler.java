@@ -18,9 +18,13 @@ public class EmployeeEventsHandler {
 
     @EventHandler
     public void on(EmployeeCreateEvent event) {
+
         Employee employee = new Employee();
+
         BeanUtils.copyProperties(event, employee);
+
         employeeRepository.save(employee);
+
     }
 
     @EventHandler

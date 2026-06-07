@@ -45,9 +45,11 @@ public class EmployeeAggregate {
 
     @CommandHandler
     public EmployeeAggregate(CreateEmployeeCommand command) {
+
         EmployeeCreateEvent event = new EmployeeCreateEvent();
         BeanUtils.copyProperties(command, event);
         AggregateLifecycle.apply(event);
+
     }
 
     @CommandHandler

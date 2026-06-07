@@ -1,5 +1,13 @@
 package com.shoping.commonservice.model.response;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+@JsonPropertyOrder({
+        "statusCode",
+        "error",
+        "message",
+        "data"
+})
 public class RestResponse<T> {
     private int statusCode;
     private String error;
