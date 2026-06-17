@@ -1,40 +1,61 @@
 {
-  "configurations": [
-    {
-      "type": "java",
-      "name": "EmployeeserviceApplication",
-      "request": "launch",
-      "mainClass": "com.shoping.employeeservice.EmployeeserviceApplication"
-    },
-    {
-      "type": "java",
-      "name": "Spring Boot-DiscoveryserverApplication<discoveryserver>",
-      "request": "launch",
-      "cwd": "${workspaceFolder}",
-      "mainClass": "com.shoping.discoveryserver.DiscoveryserverApplication",
-      "projectName": "discoveryserver",
-      "args": "",
-      "envFile": "${workspaceFolder}/.env"
-    },
-    {
-      "type": "java",
-      "name": "Spring Boot-ProductserviceApplication<productservice>",
-      "request": "launch",
-      "cwd": "${workspaceFolder}",
-      "mainClass": "com.shoping.productservice.ProductserviceApplication",
-      "projectName": "productservice",
-      "args": "",
-      "envFile": "${workspaceFolder}/.env"
-    },
-    {
-      "type": "java",
-      "name": "Spring Boot-EmployeeserviceApplication<employeeservice>",
-      "request": "launch",
-      "cwd": "${workspaceFolder}",
-      "mainClass": "com.shoping.employeeservice.EmployeeserviceApplication",
-      "projectName": "employeeservice",
-      "args": "",
-      "envFile": "${workspaceFolder}/.env"
-    }
-  ]
+    "configurations": [
+        {
+            "type": "java",
+            "name": "EmployeeserviceApplication",
+            "request": "launch",
+            "mainClass": "com.shoping.employeeservice.EmployeeserviceApplication"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-DiscoveryserverApplication<discoveryserver>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.shoping.discoveryserver.DiscoveryserverApplication",
+            "projectName": "discoveryserver",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=61266 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=discoveryserver"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ProductserviceApplication<productservice>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.shoping.productservice.ProductserviceApplication",
+            "projectName": "productservice",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-EmployeeserviceApplication<employeeservice>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.shoping.employeeservice.EmployeeserviceApplication",
+            "projectName": "employeeservice",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ApigatewayApplication<apigateway>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.shoping.apigateway.ApigatewayApplication",
+            "projectName": "apigateway",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-UserserviceApplication<userservice>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.shoping.userservice.UserserviceApplication",
+            "projectName": "userservice",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
 }
