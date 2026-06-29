@@ -43,10 +43,22 @@ spring:
                     redis-rate-limiter.burstCapacity: 20
                     redis-rate-limiter.requestedTokens: 1
 
-            - id: movies
-              uri: lb://movies
+            - id: product
+              uri: lb://productservice
               predicates:
-                - Path=/api/v1/movies/**
+                - Path=/api/v1/product/**
+              filters:
+                - name: KeyAuthFilter
+                - name: RequestRateLimiter
+                  args:
+                    redis-rate-limiter.replenishRate: 10
+                    redis-rate-limiter.burstCapacity: 20
+                    redis-rate-limiter.requestedTokens: 1
+
+            - id: employee
+              uri: lb://employeeservice
+              predicates:
+                - Path=/api/v1/employee/**
               filters:
                 - name: KeyAuthFilter
                 - name: RequestRateLimiter
@@ -59,7 +71,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8180/realms/Cinema
+          issuer-uri: http://localhost:8180/realms/shopping
 
 eureka:
   instance:

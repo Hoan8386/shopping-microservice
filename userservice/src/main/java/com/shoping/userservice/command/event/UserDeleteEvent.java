@@ -9,16 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PermissionCreateEvent {
+public class UserDeleteEvent {
+
     private String id;
-
-    private String code;
-
-    private String name;
-
-    private String module;
-
-    private String apiPath;
-
-    private String method;
 }

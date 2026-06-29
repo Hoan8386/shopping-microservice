@@ -1,4 +1,6 @@
-package com.shoping.userservice.command.event;
+package com.shoping.userservice.command.command;
+
+import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +11,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RoleDeleteEvent {
+public class DeleteUserCommand {
+
+    @TargetAggregateIdentifier
     private String id;
 }

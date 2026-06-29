@@ -1,6 +1,9 @@
 package com.shoping.userservice.command.command;
 
+import java.time.LocalDate;
+
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,13 +13,24 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateRoleCommand {
+public class CreateUserCommand {
+
     @TargetAggregateIdentifier
     private String id;
 
-    private String name;
+    private String keycloakId;
 
-    private String description;
+    private String fullName;
 
-    private boolean active;
+    private String phone;
+
+    private String address;
+
+    private String avatar;
+
+    private String gender;
+
+    private LocalDate birthday;
+
+    private String status;
 }
