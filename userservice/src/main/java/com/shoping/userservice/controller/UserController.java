@@ -31,25 +31,6 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
-    /**
-     * Tạo người dùng mới trong hệ thống.
-     * 
-     * Endpoint này thực hiện:
-     * 1. Tạo user trong Keycloak Identity Provider
-     * 2. Lưu thông tin user vào database local
-     * 
-     * @param dto CreateUserRequestDTO chứa thông tin user (email, username,
-     *            password, ...)
-     * @return ResponseEntity<UserResponseDTO> thông tin user đã tạo (HTTP 200)
-     * 
-     * @apiNote POST /api/v1/users
-     * @apiNote Headers: Authorization: Bearer {access_token}
-     * @apiNote Content-Type: application/json
-     */
-    @PostMapping
-    public ResponseEntity<UserResponseDTO> createUser(@RequestBody CreateUserRequestDTO dto) {
-        return ResponseEntity.ok(userService.createUser(dto));
-    }
 
     /**
      * Lấy danh sách tất cả người dùng trong hệ thống.

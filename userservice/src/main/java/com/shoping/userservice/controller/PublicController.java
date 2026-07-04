@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.shoping.userservice.dto.CreateUserRequestDTO;
 import com.shoping.userservice.dto.LoginRequestDto;
+import com.shoping.userservice.dto.UserResponseDTO;
 import com.shoping.userservice.dto.identity.TokenExchangeResponse;
 import com.shoping.userservice.service.IUserService;
 
@@ -17,8 +19,9 @@ import com.shoping.userservice.service.IUserService;
  * REST Controller cho các endpoint PUBLIC - KHÔNG yêu cầu authentication.
  * 
  * Controller này xử lý các thao tác mà người dùng chưa đăng nhập có thể thực
- * hiện,
- * chủ yếu là đăng nhập để lấy access token.
+ * hiện:
+ * - Đăng ký tài khoản mới
+ * - Đăng nhập để lấy access token
  * 
  * Base URL: /api/v1/public
  * 
@@ -76,5 +79,24 @@ public class PublicController {
     @PostMapping("/login")
     ResponseEntity<TokenExchangeResponse> login(@RequestBody LoginRequestDto dto) {
         return ResponseEntity.ok(userService.login(dto));
+    }
+
+    /**
+     * Đăng ký tài khoản người dùng mới - KHÔNG yêu cầu authentication.
+     * 
+     * Endpoint này:
+     * 1. Tạo user trong Keycloak Identity Provider
+     * 2. Lưu thông tin user vào database local
+     * 
+     * @param dto CreateUserRequestDTO chứa thông tin user (email, username, password, ...)
+     * @return ResponseEntity<UserResponseDTO> thông tin user đã tạo (HTTP 200)
+     * 
+     * @apiNote POST /api/v1/public/register
+     * @apiNote Content-Type: application/json
+     * @apiNote No authentication required
+     */
+    @PostMapping("/register")
+    ResponseEntity<UserResponseDTO> register(@RequestBody CreateUserRequestDTO dto) {
+        return ResponseEntity.ok(userService.createUser(dto));
     }
 }

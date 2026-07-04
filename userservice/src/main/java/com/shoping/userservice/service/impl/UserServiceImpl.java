@@ -23,7 +23,6 @@ import com.shoping.userservice.repository.UserRepository;
 import com.shoping.userservice.service.IUserService;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**

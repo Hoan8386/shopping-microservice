@@ -10,25 +10,31 @@ spring:
   application:
     name: userservice
   datasource:
-    url: jdbc:mysql://localhost:3306/ltfullstack?useSSL=false&serverTimezone=UTC
-    username: root
-    password: 123456
+    url: jdbc:h2:mem:userservice
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
 
   security:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8083/auth/realms/baeldung
+          # ĐÃ SỬA: Đồng bộ port 8180 và tên Realm "shopping microservices" chuẩn theo link thực tế
+          # Sử dụng cấu hình URL của các phiên bản Keycloak mới hiện nay
+          issuer-uri: http://localhost:8180/realms/shopping%20microservices
+
   jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: update
     show-sql: true
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
 
 idp:
+  # ĐÃ SỬA: Đồng bộ toàn bộ thông tin kết nối với máy chủ Keycloak thực tế của bạn
   url: http://localhost:8180
-  client-id: microservices_app
-  client-secret: LDAcE733NH68B4gdG0TZwbTQvEcbsVKU
-  realm: microservices
+  client-id: shopping_web
+  client-secret: HsrCuHpHVFbQfTc6FjGv9LVZqPWYq3sA
+  realm: shopping microservices
