@@ -24,7 +24,7 @@ spring:
         jwt:
           # ĐÃ SỬA: Đồng bộ port 8180 và tên Realm "shopping microservices" chuẩn theo link thực tế
           # Sử dụng cấu hình URL của các phiên bản Keycloak mới hiện nay
-          issuer-uri: http://localhost:8180/realms/shopping%20microservices
+          issuer-uri: http://localhost:8180/realms/shopping
 
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
@@ -35,6 +35,6 @@ spring:
 idp:
   # ĐÃ SỬA: Đồng bộ toàn bộ thông tin kết nối với máy chủ Keycloak thực tế của bạn
   url: http://localhost:8180
-  client-id: shopping_web
-  client-secret: HsrCuHpHVFbQfTc6FjGv9LVZqPWYq3sA
-  realm: shopping microservices
+  client-id: shopping_app
+  client-secret: DAxJHo0cBXCcRL28YscseRtMUOomBVrg 
+  realm: shopping
