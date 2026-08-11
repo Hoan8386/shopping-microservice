@@ -1,4 +1,4 @@
-package com.shoping.userservice;
+package com.ltfullstack.userservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
