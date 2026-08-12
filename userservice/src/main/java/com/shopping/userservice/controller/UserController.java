@@ -1,11 +1,12 @@
-package com.ltfullstack.userservice.controller;
+package com.shopping.userservice.controller;
 
-import com.ltfullstack.userservice.dto.CreateUserRequestDTO;
-import com.ltfullstack.userservice.dto.UserResponseDTO;
-import com.ltfullstack.userservice.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import com.shopping.userservice.dto.CreateUserRequestDTO;
+import com.shopping.userservice.dto.UserResponseDTO;
+import com.shopping.userservice.service.IUserService;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.ltfullstack.userservice;
+package com.shopping.userservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

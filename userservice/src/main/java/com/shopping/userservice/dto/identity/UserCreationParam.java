@@ -1,4 +1,4 @@
-package com.ltfullstack.userservice.dto.identity;
+package com.shopping.userservice.dto.identity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

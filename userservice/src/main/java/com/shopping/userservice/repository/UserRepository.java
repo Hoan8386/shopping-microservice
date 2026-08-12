@@ -1,7 +1,8 @@
-package com.ltfullstack.userservice.repository;
+package com.shopping.userservice.repository;
 
-import com.ltfullstack.userservice.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.shopping.userservice.entity.User;
 
 import java.util.Optional;
 

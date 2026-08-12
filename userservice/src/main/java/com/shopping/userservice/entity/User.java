@@ -1,4 +1,4 @@
-package com.ltfullstack.userservice.entity;
+package com.shopping.userservice.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;

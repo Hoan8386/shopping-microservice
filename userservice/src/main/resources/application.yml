@@ -11,9 +11,9 @@ spring:
   application:
     name: userservice
   datasource:
-    url: jdbc:mysql://localhost:3306/ltfullstack?useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/shopping?useSSL=false&serverTimezone=UTC
     username: root
-    password:
+    password: 123456
 
   jpa:
     hibernate:
@@ -25,6 +25,6 @@ spring:
 
 idp:
   url: http://localhost:8180
-  client-id: ltfullstack_app
-  client-secret: iwz9xprfV78ltEcWBDqH8pn5VMTx1EtF
-  realm: ltfullstack
+  client-id: shopping_app
+  client-secret: DAxJHo0cBXCcRL28YscseRtMUOomBVrg
+  realm: shopping

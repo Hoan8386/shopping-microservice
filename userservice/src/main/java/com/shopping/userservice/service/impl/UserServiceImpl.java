@@ -1,21 +1,26 @@
-package com.ltfullstack.userservice.service.impl;
+package com.shopping.userservice.service.impl;
 
-import com.ltfullstack.userservice.dto.CreateUserRequestDTO;
-import com.ltfullstack.userservice.dto.UserResponseDTO;
-import com.ltfullstack.userservice.dto.identity.Credential;
-import com.ltfullstack.userservice.dto.identity.TokenExchangeParam;
-import com.ltfullstack.userservice.dto.identity.UserCreationParam;
-import com.ltfullstack.userservice.entity.User;
-import com.ltfullstack.userservice.repository.IdentityClient;
-import com.ltfullstack.userservice.repository.UserRepository;
-
-import com.ltfullstack.userservice.service.IUserService;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import com.shopping.userservice.dto.CreateUserRequestDTO;
+import com.shopping.userservice.dto.LoginRequestDTO;
+import com.shopping.userservice.dto.UserResponseDTO;
+import com.shopping.userservice.dto.identity.Credential;
+import com.shopping.userservice.dto.identity.TokenExchangeParam;
+import com.shopping.userservice.dto.identity.TokenExchangeResponse;
+import com.shopping.userservice.dto.identity.UserCreationParam;
+import com.shopping.userservice.dto.identity.UserTokenExchangeParam;
+import com.shopping.userservice.entity.User;
+import com.shopping.userservice.repository.IdentityClient;
+import com.shopping.userservice.repository.UserRepository;
+import com.shopping.userservice.service.IUserService;
+
+import feign.FeignException;
 
 import java.util.List;
 import java.util.UUID;
@@ -133,5 +138,28 @@ public class UserServiceImpl implements IUserService {
         String location = locations.get(0);
         String[] splitedStr = location.split("/");
         return splitedStr[splitedStr.length - 1];
+    }
+
+    @Override
+    public TokenExchangeResponse login(LoginRequestDTO dto) {
+        try {
+            var token = identityClient.exchangeUserToken(
+                UserTokenExchangeParam.builder()
+                    .grant_type("password")
+                    .client_secret(clientSecret)
+                    .client_id(clientId)
+                    .scope("openid")
+                    .username(dto.getUsername())
+                    .password(dto.getPassword())
+                    .build()
+            );
+
+            return token;
+
+        } catch (FeignException e) {
+            log.error("Status: {}", e.status());
+            log.error("Response: {}", e.contentUTF8());
+            throw e;
+        }
     }
 }

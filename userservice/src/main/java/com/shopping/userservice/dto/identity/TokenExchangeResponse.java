@@ -1,4 +1,4 @@
-package com.ltfullstack.userservice.dto.identity;
+package com.shopping.userservice.dto.identity;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
