@@ -19,29 +19,18 @@ spring:
               enabled: true
 
           routes:
-
             - id: userservice-public
               uri: lb://userservice
               predicates:
                 - Path=/api/v1/public/**
-              filters:
-                - name: RequestRateLimiter
-                  args:
-                    redis-rate-limiter.replenishRate: 10
-                    redis-rate-limiter.burstCapacity: 20
-                    redis-rate-limiter.requestedTokens: 1
+              
 
             - id: userservice-protected
               uri: lb://userservice
               predicates:
                 - Path=/api/v1/users/**
               filters:
-                - name: KeyAuthFilter
-                - name: RequestRateLimiter
-                  args:
-                    redis-rate-limiter.replenishRate: 10
-                    redis-rate-limiter.burstCapacity: 20
-                    redis-rate-limiter.requestedTokens: 1
+                - name: JwtHeaderFilter
 
             - id: product
               uri: lb://productservice
@@ -66,7 +55,21 @@ spring:
                     redis-rate-limiter.replenishRate: 10
                     redis-rate-limiter.burstCapacity: 20
                     redis-rate-limiter.requestedTokens: 1
-
+      globalcors:
+        add-to-simple-url-handler-mapping: true
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost:3000"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
   security:
     oauth2:
       resourceserver:

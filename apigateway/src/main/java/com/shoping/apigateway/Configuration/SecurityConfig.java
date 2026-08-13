@@ -14,6 +14,7 @@ public class SecurityConfig {
     @Bean
     SecurityWebFilterChain filterChain(ServerHttpSecurity http) throws Exception {
         http
+                .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable()) // Tắt CSRF cho API Gateway
                 .authorizeExchange(exchange -> exchange
                         .pathMatchers("/api/v1/public/**").permitAll() // Cho phép không auth
