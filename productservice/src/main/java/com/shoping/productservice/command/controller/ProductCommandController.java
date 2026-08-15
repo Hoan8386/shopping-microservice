@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.shoping.commonservice.service.KafkaService;
 import com.shoping.commonservice.util.anotation.ApiMessage;
 import com.shoping.commonservice.util.anotation.ResponseId;
 import com.shoping.productservice.command.command.CreateProductCommand;
@@ -43,6 +44,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class ProductCommandController {
     @Autowired
     private CommandGateway commandGateway;
+
+    @Autowired
+    private KafkaService kafkaService;
 
     @PostMapping
     @ApiMessage("Create product")
@@ -83,5 +87,12 @@ public class ProductCommandController {
         ResponseId responseId = new ResponseId(commandGateway.sendAndWait(deleteProductCommand));
         return ResponseEntity.status(HttpStatus.OK).body(responseId);
     }
+
+
+    @PostMapping("/sendMessage")
+    public void sendMessage(@RequestBody String message) {
+        kafkaService.sendMessage("test", message);
+    }
+    
 
 }

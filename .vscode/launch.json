@@ -63,6 +63,16 @@
             "projectName": "userservice",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-NotificationserviceApplication<notificationservice>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.shoping.notificationservice.NotificationserviceApplication",
+            "projectName": "notificationservice",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }
