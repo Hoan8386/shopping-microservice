@@ -16,7 +16,7 @@ import lombok.Setter;
 
 public class UpdateProductCommand {
     @TargetAggregateIdentifier
-    private String Id;
+    private String id;
 
     private String name;
 

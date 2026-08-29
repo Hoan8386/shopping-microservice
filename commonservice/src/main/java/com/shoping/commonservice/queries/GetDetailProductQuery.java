@@ -1,4 +1,4 @@
-package com.shoping.productservice.query.queries;
+package com.shoping.commonservice.queries;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetProductDetailQuery {
+public class GetDetailProductQuery {
     private String id;
-
 }

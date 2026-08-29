@@ -28,7 +28,7 @@ import lombok.Setter;
 public class ProductAggregate {
 
     @AggregateIdentifier
-    private String Id;
+    private String id;
 
     private String name;
 
@@ -65,7 +65,7 @@ public class ProductAggregate {
 
     @EventSourcingHandler
     public void on(ProductCreateEvent productCreateEvent) {
-        this.Id = productCreateEvent.getId();
+        this.id = productCreateEvent.getId();
         this.name = productCreateEvent.getName();
         this.idCategory = productCreateEvent.getIdCategory();
         this.description = productCreateEvent.getDescription();
@@ -76,7 +76,7 @@ public class ProductAggregate {
 
     @EventSourcingHandler
     public void on(ProductUpdateEvent productCreateEvent) {
-        this.Id = productCreateEvent.getId();
+        this.id = productCreateEvent.getId();
         this.name = productCreateEvent.getName();
         this.idCategory = productCreateEvent.getIdCategory();
         this.description = productCreateEvent.getDescription();
@@ -87,7 +87,7 @@ public class ProductAggregate {
 
     @EventSourcingHandler
     public void on(ProductDeleteEvent productCreateEvent) {
-        this.Id = productCreateEvent.getId();
+        this.id = productCreateEvent.getId();
 
     }
 }

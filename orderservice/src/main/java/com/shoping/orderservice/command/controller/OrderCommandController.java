@@ -1,6 +1,8 @@
 package com.shoping.orderservice.command.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.shoping.commonservice.util.anotation.ApiMessage;
 import com.shoping.commonservice.util.anotation.ResponseId;
+import com.shoping.orderservice.command.command.OrderCreateCommand;
+import com.shoping.orderservice.command.command.OrderItemCommand;
 import com.shoping.orderservice.command.data.Order;
+import com.shoping.orderservice.command.data.OrderItem;
+import com.shoping.orderservice.command.data.OrderStatus;
 import com.shoping.orderservice.command.model.OrderRequestModel;
 
 import io.axoniq.axonserver.grpc.command.Command;
@@ -33,8 +39,8 @@ public class OrderCommandController {
 
     @PostMapping()
     @ApiMessage("Create Order")
-    public ResponseEntity<ResponseId> postMethodName(@RequestBody  OrderRequestModel requestModel) {
-        // TODO: process POST request
+    public ResponseEntity<ResponseId> postMethodName(@RequestBody OrderRequestModel requestModel) {
+        
 
         return ResponseEntity.status(HttpStatus.CREATED).body(null);
     }

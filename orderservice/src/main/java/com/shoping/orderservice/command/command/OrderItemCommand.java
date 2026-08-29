@@ -1,4 +1,4 @@
-package com.shoping.orderservice.command.model;
+package com.shoping.orderservice.command.command;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -9,16 +9,14 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class OrderItemRequestModel {
-    @NotBlank(message = "Product ID cannot be blank")
+@AllArgsConstructor
+public class OrderItemCommand {
     private String productId;
 
-    private Float unitPrice;
+    private Double unitPrice;
 
-    @Min(value = 1, message = "Quantity must be greater than 0")
     private int quantity;
 
-    
+
 }

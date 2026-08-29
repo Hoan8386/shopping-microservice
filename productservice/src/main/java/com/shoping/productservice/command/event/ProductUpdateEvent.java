@@ -13,7 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 
 public class ProductUpdateEvent {
-    private String Id;
+    private String id;
 
     private String name;
 

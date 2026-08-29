@@ -1,4 +1,4 @@
-package com.shoping.productservice.command.event;
+package com.shoping.orderservice.command.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,8 +7,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class ProductDeleteEvent {
-    private String id;
+@AllArgsConstructor
+public class DeleteOrderEvent {
+   private String id;
 }

@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductCreateEvent {
-    private String Id;
+    private String id;
 
     private String name;
 

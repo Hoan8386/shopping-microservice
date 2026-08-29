@@ -16,15 +16,18 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity(name = "OrderItems")
-
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class OrderItem {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     private String productId;
 
-    private Integer quantity;
+    private int quantity;
 
     private Float unitPrice;
 

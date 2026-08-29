@@ -15,7 +15,7 @@ import jakarta.validation.constraints.Size;
 public class Product {
 
     @Id
-    private String Id;
+    private String id;
 
     private String name;
 

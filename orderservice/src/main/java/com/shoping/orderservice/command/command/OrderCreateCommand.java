@@ -1,30 +1,29 @@
-package com.shoping.orderservice.command.data;
+package com.shoping.orderservice.command.command;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import jakarta.persistence.Entity;
+import org.axonframework.modelling.command.TargetAggregateIdentifier;
+
+import com.shoping.orderservice.command.data.OrderItem;
+import com.shoping.orderservice.command.data.OrderStatus;
+import com.shoping.orderservice.command.model.OrderItemRequestModel;
+import com.shoping.orderservice.command.model.OrderRequestModel;
+
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Entity(name = "Order")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
-public class Order {
-    @Id
+public class OrderCreateCommand {
+
+    @TargetAggregateIdentifier
     private String id;
 
     private String orderId;
@@ -36,12 +35,12 @@ public class Order {
 
     private Float totalAmount;
 
-    @OneToMany(mappedBy = "order")
-    private List<OrderItem> listItems;
+    private List<OrderItemCommand> listItems;
 
-    private String address;
+    private String shipAddress;
 
-    private String phone;
+    private String shipPhone;
 
     private LocalDateTime createdAt;
+
 }
