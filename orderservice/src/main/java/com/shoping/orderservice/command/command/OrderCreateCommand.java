@@ -33,7 +33,7 @@ public class OrderCreateCommand {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    private Float totalAmount;
+    private Double totalAmount;
 
     private List<OrderItemCommand> listItems;
 

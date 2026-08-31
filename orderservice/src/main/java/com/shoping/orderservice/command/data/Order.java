@@ -17,6 +17,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 @Entity
 @Table(name = "orders")
 @Data
@@ -35,14 +36,14 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    private Float totalAmount;
+    private Double totalAmount;
 
     @OneToMany(mappedBy = "order")
     private List<OrderItem> listItems;
 
-    private String address;
+    private String shipAddress;
 
-    private String phone;
+    private String shipPhone;
 
     private LocalDateTime createdAt;
 }

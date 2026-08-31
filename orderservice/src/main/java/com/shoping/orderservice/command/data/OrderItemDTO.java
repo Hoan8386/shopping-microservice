@@ -11,11 +11,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class OrderItemDTO {
 
+
     private String productId;
 
-    private Integer quantity;
+    private int quantity;
 
-    private Float unitPrice;
+    private Double unitPrice;
 
-    private Float subtotal;
+    private Double subtotal;
 }

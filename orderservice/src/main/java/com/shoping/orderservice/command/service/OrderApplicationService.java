@@ -25,6 +25,7 @@ import com.shoping.orderservice.command.command.OrderUpdateCommand;
 import com.shoping.orderservice.command.data.Order;
 import com.shoping.orderservice.command.data.OrderRepository;
 import com.shoping.orderservice.command.data.OrderStatus;
+import com.shoping.orderservice.command.model.OrderItemRequestModel;
 import com.shoping.orderservice.command.model.OrderRequestModel;
 
 @Service
@@ -39,21 +40,19 @@ public class OrderApplicationService {
     private OrderRepository orderRepository;
 
     public ResponseId createOrder(OrderRequestModel requestModel) {
-        List<String> productIds = requestModel.getItems().stream().map(item -> item.getProductId()).toList();
-        List<ProductDetailResponseCommonModel> listProductDetail = new ArrayList<>();
-        for (String ItemId : productIds) {
-            GetDetailProductQuery query = new GetDetailProductQuery(ItemId);
+        Double totalAmount = 0D;
+        List<OrderItemCommand> listOrderItemCommands = new ArrayList<>();
+        for (OrderItemRequestModel item : requestModel.getItems()) {
+            GetDetailProductQuery query = new GetDetailProductQuery(item.getProductDetailId());
             ProductDetailResponseCommonModel productDetail = queryGateway
                     .query(query, ResponseTypes.instanceOf(ProductDetailResponseCommonModel.class)).join();
-            listProductDetail.add(productDetail);
-        }
-
-        List<OrderItemCommand> listOrderItemCommands = new ArrayList<>();
-        
-        for (ProductDetailResponseCommonModel responseDetail : listProductDetail) {
-            OrderItemCommand orderItemCommand = new OrderItemCommand(responseDetail.getProductId(),
-                    responseDetail.getPrice(), responseDetail.getQuantity());
+            OrderItemCommand orderItemCommand = new OrderItemCommand();
+            orderItemCommand.setProductDetailId(item.getProductDetailId());
+            orderItemCommand.setQuantity(item.getQuantity());
+            orderItemCommand.setUnitPrice(productDetail.getPrice());
+            orderItemCommand.setSubTotal(productDetail.getPrice() * item.getQuantity());
             listOrderItemCommands.add(orderItemCommand);
+            totalAmount = totalAmount + productDetail.getPrice() * item.getQuantity();
         }
 
         String id = UUID.randomUUID().toString();
@@ -62,13 +61,14 @@ public class OrderApplicationService {
                 "Order_" + id,
                 requestModel.getUserId(),
                 OrderStatus.PENDING,
-                0F,
+                totalAmount,
                 listOrderItemCommands,
                 requestModel.getShipAddress(),
                 requestModel.getShipPhone(),
                 LocalDateTime.now());
         ResponseId responseId = new ResponseId(commandGateway.sendAndWait(orderCreateCommand));
         return responseId;
+
     }
 
     public ResponseId updateOrder(String orderId, OrderRequestModel requestModel) {

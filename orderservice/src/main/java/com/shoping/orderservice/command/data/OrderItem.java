@@ -31,9 +31,9 @@ public class OrderItem {
 
     private int quantity;
 
-    private Float unitPrice;
+    private Double unitPrice;
 
-    private Float subtotal;
+    private Double subtotal;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "orderId")

@@ -13,12 +13,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class OrderItemRequestModel {
     @NotBlank(message = "Product ID cannot be blank")
-    private String productId;
-
-    private Float unitPrice;
+    private String productDetailId;
 
     @Min(value = 1, message = "Quantity must be greater than 0")
     private int quantity;
 
-    
 }

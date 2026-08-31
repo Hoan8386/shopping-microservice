@@ -3,6 +3,7 @@ package com.shoping.orderservice.command.aggregate;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
@@ -14,7 +15,6 @@ import org.springframework.beans.BeanUtils;
 import com.shoping.orderservice.command.command.OrderCreateCommand;
 import com.shoping.orderservice.command.command.OrderDeleteCommand;
 import com.shoping.orderservice.command.command.OrderUpdateCommand;
-import com.shoping.orderservice.command.data.OrderItem;
 import com.shoping.orderservice.command.data.OrderItemDTO;
 import com.shoping.orderservice.command.data.OrderStatus;
 import com.shoping.orderservice.command.event.CreateOrderEvent;
@@ -28,11 +28,13 @@ import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 @Aggregate
 @NoArgsConstructor
 @Getter
 @Setter
+
 public class OrderAggregate {
 
     @AggregateIdentifier
@@ -44,7 +46,7 @@ public class OrderAggregate {
 
     private OrderStatus status;
 
-    private Float totalAmount;
+    private Double totalAmount;
 
     private List<OrderItemDTO> listItems;
 
@@ -56,8 +58,33 @@ public class OrderAggregate {
 
     @CommandHandler
     public OrderAggregate(OrderCreateCommand command) {
+        List<OrderItemDTO> items = command.getListItems().stream().map(
+                item -> {
+                    OrderItemDTO dto = new OrderItemDTO();
+                    dto.setProductId(item.getProductDetailId());
+                    dto.setQuantity(item.getQuantity());
+                    dto.setSubtotal(item.getSubTotal());
+                    dto.setUnitPrice(item.getUnitPrice());
+                    return dto;
+                }).collect(Collectors.toList());
         CreateOrderEvent createOrderEvent = new CreateOrderEvent();
-        BeanUtils.copyProperties(command, createOrderEvent);
+        createOrderEvent.setId(command.getId());
+        createOrderEvent.setOrderId(command.getOrderId());
+        createOrderEvent.setUserId(command.getUserId());
+        createOrderEvent.setStatus(command.getStatus());
+
+        // Double -> Float
+        createOrderEvent.setTotalAmount(command.getTotalAmount());
+
+        createOrderEvent.setListItems(items);
+
+        // shipAddress -> address
+        createOrderEvent.setShipAddress(command.getShipAddress());
+
+        // shipPhone -> phone
+        createOrderEvent.setShipPhone(command.getShipPhone());
+
+        createOrderEvent.setCreatedAt(command.getCreatedAt());
         AggregateLifecycle.apply(createOrderEvent);
     }
 
@@ -83,8 +110,8 @@ public class OrderAggregate {
         this.status = createOrderEvent.getStatus();
         this.totalAmount = createOrderEvent.getTotalAmount();
         this.listItems = createOrderEvent.getListItems();
-        this.address = createOrderEvent.getAddress();
-        this.phone = createOrderEvent.getPhone();
+        this.address = createOrderEvent.getShipAddress();
+        this.phone = createOrderEvent.getShipPhone();
         this.createdAt = createOrderEvent.getCreatedAt();
     }
 

@@ -12,10 +12,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderItemCommand {
-    private String productId;
+    private String productDetailId;
 
     private Double unitPrice;
 
     private int quantity;
+    
+    private Double subTotal;
 
 }

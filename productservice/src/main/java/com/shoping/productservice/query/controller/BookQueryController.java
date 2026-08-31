@@ -48,7 +48,7 @@ public class BookQueryController {
         @GetMapping("{ProductId}")
         @ApiMessage("Get product detail")
         public ResponseEntity<List<ProductResponseModel>> GetProductDetailQuery(@PathVariable String ProductId) {
-                GetDetailProductQuery getAllProductQuery = new GetDetailProductQuery(ProductId);
+                GetProductDetailQuery getAllProductQuery = new GetProductDetailQuery(ProductId);
                 List<ProductResponseModel> result = queryGateway
                                 .query(getAllProductQuery,
                                                 ResponseTypes.multipleInstancesOf(ProductResponseModel.class))

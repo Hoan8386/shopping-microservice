@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.shoping.commonservice.model.response.ProductDetailResponseCommonModel;
+import com.shoping.commonservice.queries.GetDetailProductQuery;
 import com.shoping.commonservice.util.anotation.ApiMessage;
 import com.shoping.productservice.query.model.ProductDetailResponseModel;
 import com.shoping.productservice.query.queries.GetAllProductDetailQuery;
@@ -34,10 +36,10 @@ public class ProductDetailQueryController {
 
     @GetMapping("/{productDetailId}")
     @ApiMessage("Get product detail")
-    public ResponseEntity<ProductDetailResponseModel> getProductDetail(@PathVariable String productDetailId) {
-        GetProductDetailByIdQuery query = new GetProductDetailByIdQuery(productDetailId);
-        ProductDetailResponseModel result = queryGateway
-                .query(query, ResponseTypes.instanceOf(ProductDetailResponseModel.class)).join();
+    public ResponseEntity<ProductDetailResponseCommonModel> getProductDetail(@PathVariable String productDetailId) {
+        GetDetailProductQuery query = new GetDetailProductQuery(productDetailId);
+        ProductDetailResponseCommonModel result = queryGateway
+                .query(query, ResponseTypes.instanceOf(ProductDetailResponseCommonModel.class)).join();
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 }

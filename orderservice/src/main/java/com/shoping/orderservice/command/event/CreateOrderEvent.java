@@ -28,13 +28,13 @@ public class CreateOrderEvent {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    private Float totalAmount;
+    private Double  totalAmount;
 
     private List<OrderItemDTO> listItems;
 
-    private String address;
+    private String shipAddress;
 
-    private String phone;
+    private String shipPhone;
 
     private LocalDateTime createdAt;
 }
