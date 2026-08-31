@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.shoping.commonservice.queries.GetDetailProductQuery;
 import com.shoping.commonservice.util.anotation.ApiMessage;
 import com.shoping.productservice.query.model.ProductResponseModel;
 import com.shoping.productservice.query.queries.FilterProductQuery;
@@ -47,7 +48,7 @@ public class BookQueryController {
         @GetMapping("{ProductId}")
         @ApiMessage("Get product detail")
         public ResponseEntity<List<ProductResponseModel>> GetProductDetailQuery(@PathVariable String ProductId) {
-                GetProductDetailQuery getAllProductQuery = new GetProductDetailQuery(ProductId);
+                GetDetailProductQuery getAllProductQuery = new GetDetailProductQuery(ProductId);
                 List<ProductResponseModel> result = queryGateway
                                 .query(getAllProductQuery,
                                                 ResponseTypes.multipleInstancesOf(ProductResponseModel.class))

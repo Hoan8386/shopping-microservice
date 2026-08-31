@@ -42,14 +42,14 @@ public class SizeAggregate {
     }
 
     @CommandHandler
-    public SizeAggregate(SizeUpdateCommand command) {
+    public void handle(SizeUpdateCommand command) {
         SizeUpdateEvent sizeUpdateEvent = new SizeUpdateEvent();
         BeanUtils.copyProperties(command, sizeUpdateEvent);
         AggregateLifecycle.apply(sizeUpdateEvent);
     }
 
     @CommandHandler
-    public SizeAggregate(SizeDeleteCommand command) {
+    public void handle(SizeDeleteCommand command) {
         SizeDeleteEvent sizeDeleteEvent = new SizeDeleteEvent();
         BeanUtils.copyProperties(command, sizeDeleteEvent);
         AggregateLifecycle.apply(sizeDeleteEvent);

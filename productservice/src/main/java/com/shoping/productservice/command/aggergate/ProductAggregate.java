@@ -50,14 +50,14 @@ public class ProductAggregate {
     }
 
     @CommandHandler
-    public ProductAggregate(UpdateProductCommand command) {
+    public void handle(UpdateProductCommand command) {
         ProductUpdateEvent productUpdateEvent = new ProductUpdateEvent();
         BeanUtils.copyProperties(command, productUpdateEvent);
         AggregateLifecycle.apply(productUpdateEvent);
     }
 
     @CommandHandler
-    public ProductAggregate(DeleteProductCommand command) {
+    public void handle(DeleteProductCommand command) {
         ProductDeleteEvent ProductDeleteEvent = new ProductDeleteEvent();
         BeanUtils.copyProperties(command, ProductDeleteEvent);
         AggregateLifecycle.apply(ProductDeleteEvent);

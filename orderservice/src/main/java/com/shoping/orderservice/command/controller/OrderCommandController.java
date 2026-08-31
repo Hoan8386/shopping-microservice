@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.shoping.commonservice.util.anotation.ApiMessage;
 import com.shoping.commonservice.util.anotation.ResponseId;
+import com.shoping.orderservice.OrderserviceApplication;
 import com.shoping.orderservice.command.command.OrderCreateCommand;
 import com.shoping.orderservice.command.command.OrderItemCommand;
 import com.shoping.orderservice.command.data.Order;
 import com.shoping.orderservice.command.data.OrderItem;
 import com.shoping.orderservice.command.data.OrderStatus;
 import com.shoping.orderservice.command.model.OrderRequestModel;
+import com.shoping.orderservice.command.service.OrderApplicationService;
 
 import io.axoniq.axonserver.grpc.command.Command;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,28 +39,29 @@ public class OrderCommandController {
     @Autowired
     private CommandGateway commandGateway;
 
-    @PostMapping()
+    @Autowired
+    private OrderApplicationService orderApplicationService;
+
+    @PostMapping
     @ApiMessage("Create Order")
     public ResponseEntity<ResponseId> postMethodName(@RequestBody OrderRequestModel requestModel) {
-        
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(null);
+        ResponseId orderId = orderApplicationService.createOrder(requestModel);
+        return ResponseEntity.status(HttpStatus.CREATED).body(orderId);
     }
 
     @PutMapping("p/{id}")
     @ApiMessage("Update Order")
-    public ResponseEntity<ResponseId> updateOrder(@PathVariable Long orderId,
+    public ResponseEntity<ResponseId> updateOrder(@PathVariable String orderId,
             @RequestBody OrderRequestModel requestModel) {
-        // TODO: process PUT request
-
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+        ResponseId id = orderApplicationService.updateOrder(orderId, requestModel);
+        return ResponseEntity.status(HttpStatus.OK).body(id);
 
     }
 
     @DeleteMapping()
     @ApiMessage("Delete Order")
-    public ResponseEntity<ResponseId> updateOrder(@PathVariable Long orderId) {
-        // TODO: process PUT request
+    public ResponseEntity<ResponseId> deleteOrder(@PathVariable String orderId) {
+        orderApplicationService.deleteOrder(orderId);
 
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }

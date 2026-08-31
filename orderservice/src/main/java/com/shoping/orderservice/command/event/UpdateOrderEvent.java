@@ -19,4 +19,8 @@ public class UpdateOrderEvent {
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
+
+    private String address;
+
+    private String phone;
 }

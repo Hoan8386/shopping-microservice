@@ -26,6 +26,8 @@ public class OrderEventHandler {
         if (oldOrder.isPresent()) {
             Order order = oldOrder.get();
             order.setStatus(event.getStatus());
+            order.setPhone(event.getPhone());
+            order.setAddress(event.getAddress());
             orderRepository.save(order);
         }
     }

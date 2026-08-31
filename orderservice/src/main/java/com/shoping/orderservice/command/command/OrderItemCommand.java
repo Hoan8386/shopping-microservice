@@ -18,5 +18,4 @@ public class OrderItemCommand {
 
     private int quantity;
 
-
 }

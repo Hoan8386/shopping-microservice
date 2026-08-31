@@ -6,7 +6,12 @@ import com.shoping.orderservice.command.data.OrderStatus;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class OrderUpdateCommand {
 
     @TargetAggregateIdentifier
@@ -14,4 +19,8 @@ public class OrderUpdateCommand {
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
+
+    private String shipAddress;
+
+    private String shipPhone;
 }

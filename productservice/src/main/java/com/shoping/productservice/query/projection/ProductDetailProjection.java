@@ -7,6 +7,8 @@ import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.shoping.commonservice.model.response.ProductDetailResponseCommonModel;
+import com.shoping.commonservice.queries.GetDetailProductQuery;
 import com.shoping.productservice.command.data.ProductDetail;
 import com.shoping.productservice.command.data.ProductDetailRepository;
 import com.shoping.productservice.query.model.ProductDetailResponseModel;
@@ -19,22 +21,26 @@ public class ProductDetailProjection {
     private ProductDetailRepository productDetailRepository;
 
     @QueryHandler
-    public List<ProductDetailResponseModel> handle(GetAllProductDetailQuery query) {
+    public List<ProductDetailResponseCommonModel> handle(GetAllProductDetailQuery query) {
+
         List<ProductDetail> details = productDetailRepository.findAll();
-        List<ProductDetailResponseModel> responses = new ArrayList<>();
+
+        List<ProductDetailResponseCommonModel> responses = new ArrayList<>();
+
         details.forEach(detail -> responses.add(toResponse(detail)));
+
         return responses;
     }
 
     @QueryHandler
-    public ProductDetailResponseModel handle(GetProductDetailByIdQuery query) {
+    public ProductDetailResponseCommonModel handle(GetDetailProductQuery query) {
         return productDetailRepository.findById(query.getId())
                 .map(this::toResponse)
-                .orElse(new ProductDetailResponseModel());
+                .orElse(new ProductDetailResponseCommonModel());
     }
 
-    private ProductDetailResponseModel toResponse(ProductDetail detail) {
-        ProductDetailResponseModel response = new ProductDetailResponseModel();
+    public ProductDetailResponseCommonModel toResponse(ProductDetail detail) {
+        ProductDetailResponseCommonModel response = new ProductDetailResponseCommonModel();
         response.setId(detail.getId());
         if (detail.getProduct() != null) {
             response.setProductId(detail.getProduct().getId());

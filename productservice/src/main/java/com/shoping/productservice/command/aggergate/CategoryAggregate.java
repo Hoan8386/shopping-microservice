@@ -35,23 +35,23 @@ public class CategoryAggregate {
 
     @CommandHandler
     public CategoryAggregate(CreateCategoryCommand command) {
-        CategoryCreateEvent categoryCreateEvent = new CategoryCreateEvent();
-        BeanUtils.copyProperties(command, categoryCreateEvent);
-        AggregateLifecycle.apply(categoryCreateEvent);
+        CategoryCreateEvent event = new CategoryCreateEvent();
+        BeanUtils.copyProperties(command, event);
+        AggregateLifecycle.apply(event);
     }
 
     @CommandHandler
-    public CategoryAggregate(UpdateCategoryCommand command) {
-        CategoryUpdateEvent categoryUpdateEvent = new CategoryUpdateEvent();
-        BeanUtils.copyProperties(command, categoryUpdateEvent);
-        AggregateLifecycle.apply(categoryUpdateEvent);
+    public void handle(UpdateCategoryCommand command) {
+        CategoryUpdateEvent event = new CategoryUpdateEvent();
+        BeanUtils.copyProperties(command, event);
+        AggregateLifecycle.apply(event);
     }
 
     @CommandHandler
-    public CategoryAggregate(DeleteCategoryCommand command) {
-        CategoryDeleteEvent categoryDeleteEvent = new CategoryDeleteEvent();
-        BeanUtils.copyProperties(command, categoryDeleteEvent);
-        AggregateLifecycle.apply(categoryDeleteEvent);
+    public void handle(DeleteCategoryCommand command) {
+        CategoryDeleteEvent event = new CategoryDeleteEvent();
+        BeanUtils.copyProperties(command, event);
+        AggregateLifecycle.apply(event);
     }
 
     @EventSourcingHandler

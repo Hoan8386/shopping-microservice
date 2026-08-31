@@ -57,7 +57,7 @@ public class OrderAggregate {
     @CommandHandler
     public OrderAggregate(OrderCreateCommand command) {
         CreateOrderEvent createOrderEvent = new CreateOrderEvent();
-       
+        BeanUtils.copyProperties(command, createOrderEvent);
         AggregateLifecycle.apply(createOrderEvent);
     }
 
@@ -92,6 +92,8 @@ public class OrderAggregate {
     public void on(UpdateOrderEvent updateOrderEvent) {
         this.id = updateOrderEvent.getId();
         this.status = updateOrderEvent.getStatus();
+        this.phone = updateOrderEvent.getPhone();
+        this.address = updateOrderEvent.getAddress();
     }
 
     @EventSourcingHandler
