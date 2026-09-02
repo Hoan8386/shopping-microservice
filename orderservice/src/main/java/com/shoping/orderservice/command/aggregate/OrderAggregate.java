@@ -12,10 +12,10 @@ import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 import org.springframework.beans.BeanUtils;
 
+import com.shoping.commonservice.model.response.DTO.OrderItemDTO;
 import com.shoping.orderservice.command.command.OrderCreateCommand;
 import com.shoping.orderservice.command.command.OrderDeleteCommand;
 import com.shoping.orderservice.command.command.OrderUpdateCommand;
-import com.shoping.orderservice.command.data.OrderItemDTO;
 import com.shoping.orderservice.command.data.OrderStatus;
 import com.shoping.orderservice.command.event.CreateOrderEvent;
 import com.shoping.orderservice.command.event.DeleteOrderEvent;

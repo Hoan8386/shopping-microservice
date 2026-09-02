@@ -4,8 +4,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.shoping.commonservice.model.response.DTO.OrderItemDTO;
 import com.shoping.orderservice.command.data.OrderItem;
-import com.shoping.orderservice.command.data.OrderItemDTO;
 import com.shoping.orderservice.command.data.OrderStatus;
 
 import jakarta.persistence.EnumType;

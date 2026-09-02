@@ -5,16 +5,34 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
+import tools.jackson.databind.ObjectMapper;
 
 // cấu hình để gửi message 
+// Service khác
+//    |
+//    | KafkaService.sendMessage("emailTemplate", email)
+//    v
+// Kafka topic: emailTemplate
+//    |
+//    v
+// EventConsumer.emailTemplate()
+//    |
+//    | EmailService.sendEmailWithTemplate(...)
+//    v
+// SMTP/Gmail gửi email
+
 @Service
 @Slf4j
 public class KafkaService {
-        @Autowired
-        private KafkaTemplate<String,String> kafkaTemplate;
+    @Autowired
+    private KafkaTemplate<String, Object> kafkaTemplate;
 
-        public void sendMessage (String topic , String message) {
-            kafkaTemplate.send(topic,message);
-            log.info("message send to topic "+topic);
-        }
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    public void sendMessage(String topic, Object data) {
+        String message = objectMapper.writeValueAsString(data);
+        kafkaTemplate.send(topic, message);
+        log.info("Message sent to topic {}", topic);
+    }
 }

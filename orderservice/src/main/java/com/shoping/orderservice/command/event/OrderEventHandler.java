@@ -10,9 +10,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.shoping.commonservice.model.response.DTO.OrderItemDTO;
 import com.shoping.orderservice.command.data.Order;
 import com.shoping.orderservice.command.data.OrderItem;
-import com.shoping.orderservice.command.data.OrderItemDTO;
 import com.shoping.orderservice.command.data.OrderRepository;
 
 import lombok.extern.slf4j.Slf4j;

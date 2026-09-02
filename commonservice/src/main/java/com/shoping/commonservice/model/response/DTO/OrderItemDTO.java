@@ -1,4 +1,4 @@
-package com.shoping.orderservice.command.data;
+package com.shoping.commonservice.model.response.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -16,10 +16,12 @@ import com.shoping.commonservice.command.RollbackProductDetailCommand;
 import com.shoping.commonservice.command.UpdateProductDetailCommand;
 import com.shoping.commonservice.exception.InsufficientStockException;
 import com.shoping.commonservice.model.response.ProductDetailResponseCommonModel;
+import com.shoping.commonservice.model.response.DTO.OrderItemDTO;
+import com.shoping.commonservice.model.response.DTO.OrderNotification;
 import com.shoping.commonservice.queries.GetDetailProductQuery;
 import com.shoping.commonservice.service.EmailService;
+import com.shoping.commonservice.service.KafkaService;
 import com.shoping.orderservice.command.command.OrderDeleteCommand;
-import com.shoping.orderservice.command.data.OrderItemDTO;
 import com.shoping.orderservice.command.event.CreateOrderEvent;
 
 import lombok.extern.slf4j.Slf4j;
@@ -34,13 +36,13 @@ public class OrderSaga {
     private transient QueryGateway queryGateway;
 
     @Autowired
-    private EmailService emailService;
+    private KafkaService kafkaService;
 
     @StartSaga
     @SagaEventHandler(associationProperty = "id")
     private void handle(CreateOrderEvent event) {
         List<OrderItemDTO> processedItems = new ArrayList<>();
-
+        Double totalPrice = 0D;
         try {
             List<OrderItemDTO> listOrderItems = event.getListItems();
             for (OrderItemDTO item : listOrderItems) {
@@ -73,7 +75,15 @@ public class OrderSaga {
             }
 
             SagaLifecycle.end();
-            // emailService.sendEmailWithTemplate(); 
+            OrderNotification orderNotification = new OrderNotification();
+            OrderNotification notification = new OrderNotification();
+
+            notification.setOrderId(event.getId());
+            notification.setEmail("hoan33356@gmail.com");
+            notification.setCustomerName("hoan");
+            notification.setItems(event.getListItems());
+            notification.setTotalPrice(totalPrice);
+            kafkaService.sendMessage("confirmOrder", orderNotification);
         } catch (Exception e) {
             rollbackProducts(processedItems);
             rollBackOrderRecord(event.getId());
