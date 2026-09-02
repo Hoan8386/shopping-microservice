@@ -21,6 +21,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CreateOrderEvent {
     private String id;
+    
     private String orderId;
 
     private String userId;

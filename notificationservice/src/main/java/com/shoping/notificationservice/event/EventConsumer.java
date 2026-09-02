@@ -1,5 +1,8 @@
 package com.shoping.notificationservice.event;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.kafka.common.errors.RetriableException;
 import org.springframework.kafka.annotation.BackOff;
 import org.springframework.kafka.annotation.DltHandler;
@@ -8,6 +11,9 @@ import org.springframework.kafka.annotation.RetryableTopic;
 import org.springframework.kafka.retrytopic.DltStrategy;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
+
+import com.shoping.commonservice.service.EmailService;
+
 import lombok.extern.slf4j.Slf4j;
 
 // https://docs.spring.io/spring-kafka/reference/retrytopic.html tài liệu
@@ -15,22 +21,35 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 
 public class EventConsumer {
-    
-    @RetryableTopic(
-        attempts = "4", // 3 topic retry + 1 topic DLQ
-        backOff = @BackOff(delay = 1000, multiplier = 2) ,// thời gian delay giữa các lần retry
-        autoCreateTopics = "True",// tự động tạo topic
-        dltStrategy = DltStrategy.ALWAYS_RETRY_ON_ERROR, // cơ chế retry
-        include = {RetriableException.class, RuntimeException.class} // chỉ quan sát những lối này thôi
+    EmailService emailService;
+
+    @RetryableTopic(attempts = "4", // 3 topic retry + 1 topic DLQ
+            backOff = @BackOff(delay = 1000, multiplier = 2), // thời gian delay giữa các lần retry
+            autoCreateTopics = "True", // tự động tạo topic
+            dltStrategy = DltStrategy.ALWAYS_RETRY_ON_ERROR, // cơ chế retry
+            include = { RetriableException.class, RuntimeException.class } // chỉ quan sát những lối này thôi
     )
-    @KafkaListener(topics = "test", containerFactory = "kafkaListenerContainerFactory") // cấu hình containerFactory từ trong common service KafkaConfig.java
-        public void listen(String message) {
-            log.info("Received message : " + message);
-            throw new RuntimeException("error test");
+    @KafkaListener(topics = "test", containerFactory = "kafkaListenerContainerFactory") // cấu hình containerFactory từ
+                                                                                        // trong common service
+                                                                                        // KafkaConfig.java
+    public void listen(String message) {
+        log.info("Received message : " + message);
+        throw new RuntimeException("error test");
     }
-    
+
     @DltHandler
     void handleDltMessage(@Payload String message) {
         log.info("DLT received message : " + message);
+    }
+
+    @KafkaListener(topics = "emailTemplate", containerFactory = "kafkaListenerContainerFactory")
+    public void emailTemplate(String message) {
+        log.info("Received message: " + message);
+
+        Map<String, Object> placeholders = new HashMap<>();
+        placeholders.put("name", "Lap trinh FullStack");
+
+        emailService.sendEmailWithTemplate(message, "Welcome to Christmas",
+                "emailTemplate.ftl", placeholders, null);
     }
 }

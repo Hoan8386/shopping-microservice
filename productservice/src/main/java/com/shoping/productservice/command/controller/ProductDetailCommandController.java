@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.shoping.commonservice.command.UpdateProductDetailCommand;
 import com.shoping.commonservice.util.anotation.ApiMessage;
 import com.shoping.commonservice.util.anotation.ResponseId;
 import com.shoping.productservice.command.command.CreateProductDetailCommand;
 import com.shoping.productservice.command.command.DeleteProductDetailCommand;
-import com.shoping.productservice.command.command.UpdateProductDetailCommand;
 import com.shoping.productservice.command.model.ProductDetailRequestModel;
 
 import jakarta.validation.Valid;

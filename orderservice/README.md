@@ -480,3 +480,17 @@ Nếu muốn, tôi có thể tiếp tục làm thêm cho bạn:
 2. viết sequence diagram cho flow tạo đơn hàng
 3. bổ sung Postman collection theo đúng từng request
 4. fix lại các endpoint chưa chuẩn trong order service
+
+
+
+
+
+
+
+
+tạo email templates để gửi khi thành công 
+từ saga gọi tới user service để lấy thông tin 
+maping data để gủi email 
+
+chuyển sang api gateway để đăng nhập 
+lấy thông tin user để giải mã để gửi email 

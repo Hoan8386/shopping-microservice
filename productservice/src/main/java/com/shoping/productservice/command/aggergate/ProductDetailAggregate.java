@@ -7,9 +7,9 @@ import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 import org.springframework.beans.BeanUtils;
 
+import com.shoping.commonservice.command.UpdateProductDetailCommand;
 import com.shoping.productservice.command.command.CreateProductDetailCommand;
 import com.shoping.productservice.command.command.DeleteProductDetailCommand;
-import com.shoping.productservice.command.command.UpdateProductDetailCommand;
 import com.shoping.productservice.command.data.ProductRepository;
 import com.shoping.productservice.command.data.SizeRepository;
 import com.shoping.productservice.command.event.ProductDetailCreateEvent;

@@ -25,9 +25,7 @@ public class OrderEventHandler {
 
     @EventHandler
     public void on(CreateOrderEvent event) {
-
         Order order = new Order();
-
         order.setId(event.getId());
         order.setOrderId(event.getOrderId());
         order.setUserId(event.getUserId());
@@ -36,13 +34,9 @@ public class OrderEventHandler {
         order.setShipAddress(event.getShipAddress());
         order.setShipPhone(event.getShipPhone());
         order.setCreatedAt(event.getCreatedAt());
-
         List<OrderItem> orderItems = new ArrayList<>();
-
         if (event.getListItems() != null) {
-
             for (OrderItemDTO itemDTO : event.getListItems()) {
-
                 OrderItem orderItem = new OrderItem();
                 orderItem.setId(UUID.randomUUID().toString());
                 orderItem.setProductId(itemDTO.getProductId());
@@ -53,9 +47,9 @@ public class OrderEventHandler {
                 orderItems.add(orderItem);
             }
         }
-
         order.setListItems(orderItems);
         orderRepository.save(order);
+
     }
 
     @EventHandler

@@ -12,6 +12,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.shoping.commonservice.exception.InsufficientStockException;
 import com.shoping.commonservice.model.ErrorMessage;
 import com.shoping.commonservice.model.response.RestResponse;
 
@@ -85,4 +86,19 @@ public class ExceptionAdvice {
                 .body(response);
     }
 
+    @ExceptionHandler(InsufficientStockException.class)
+    public ResponseEntity<RestResponse<Object>> handleInsufficientStock(
+            InsufficientStockException ex) {
+
+        RestResponse<Object> response = new RestResponse<>();
+
+        response.setStatusCode(HttpStatus.CONFLICT.value());
+        response.setError("INSUFFICIENT_STOCK");
+        response.setMessage(ex.getMessage());
+        response.setData(null);
+
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(response);
+    }
 }

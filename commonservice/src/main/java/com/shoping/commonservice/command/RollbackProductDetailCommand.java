@@ -1,4 +1,4 @@
-package com.shoping.productservice.command.command;
+package com.shoping.commonservice.command;
 
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
@@ -11,17 +11,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateProductDetailCommand {
+public class RollbackProductDetailCommand {
+
     @TargetAggregateIdentifier
     private String id;
 
-    private String productId;
-
-    private String sizeId;
-
     private Integer quantity;
-
-    private Double price;
-
-    private Boolean status;
 }

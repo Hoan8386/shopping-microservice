@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.shoping.commonservice.exception.InsufficientStockException;
 import com.shoping.commonservice.model.response.ProductDetailResponseCommonModel;
 import com.shoping.commonservice.queries.GetDetailProductQuery;
 import com.shoping.commonservice.util.anotation.ResponseId;
@@ -46,6 +47,10 @@ public class OrderApplicationService {
             GetDetailProductQuery query = new GetDetailProductQuery(item.getProductDetailId());
             ProductDetailResponseCommonModel productDetail = queryGateway
                     .query(query, ResponseTypes.instanceOf(ProductDetailResponseCommonModel.class)).join();
+            if (productDetail.getQuantity() <= item.getQuantity()) {
+                throw new InsufficientStockException(
+                        "Số lượng sản phẩm không đủ");
+            }
             OrderItemCommand orderItemCommand = new OrderItemCommand();
             orderItemCommand.setProductDetailId(item.getProductDetailId());
             orderItemCommand.setQuantity(item.getQuantity());
