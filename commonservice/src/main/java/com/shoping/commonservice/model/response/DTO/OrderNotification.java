@@ -14,7 +14,8 @@ import lombok.Setter;
 public class OrderNotification {
     private String orderId;
     private String email;
-    private String customerName;
+    private String fistName;
+    private String lastName;
     private List<OrderItemDTO> items;
     private double totalPrice;
 }

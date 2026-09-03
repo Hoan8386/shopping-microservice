@@ -74,9 +74,6 @@ public class EventConsumer {
                 "totalPrice",
                 orderNotification.getTotalPrice());
 
-        // =========================
-        // GỬI EMAIL
-        // =========================
 
         emailService.sendEmailWithTemplate(
                 orderNotification.getEmail(),

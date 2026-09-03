@@ -21,7 +21,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CreateOrderEvent {
     private String id;
-    
+
     private String orderId;
 
     private String userId;
@@ -29,7 +29,7 @@ public class CreateOrderEvent {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    private Double  totalAmount;
+    private Double totalAmount;
 
     private List<OrderItemDTO> listItems;
 
@@ -38,4 +38,10 @@ public class CreateOrderEvent {
     private String shipPhone;
 
     private LocalDateTime createdAt;
+
+    private String email;
+
+    private String firstName;
+
+    private String lastName;
 }

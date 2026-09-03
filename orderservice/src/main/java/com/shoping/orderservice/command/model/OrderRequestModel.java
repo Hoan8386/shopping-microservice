@@ -15,8 +15,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderRequestModel {
-    @NotBlank(message = "User ID cannot be blank")
-    private String userId;
+    
 
     @NotEmpty(message = "Order must contain at least one item")
     @Valid

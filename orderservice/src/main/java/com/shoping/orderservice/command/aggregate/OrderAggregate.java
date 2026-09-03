@@ -56,6 +56,12 @@ public class OrderAggregate {
 
     private LocalDateTime createdAt;
 
+    private String email;
+
+    private String firstName;
+
+    private String lastName;
+
     @CommandHandler
     public OrderAggregate(OrderCreateCommand command) {
         List<OrderItemDTO> items = command.getListItems().stream().map(
@@ -85,6 +91,13 @@ public class OrderAggregate {
         createOrderEvent.setShipPhone(command.getShipPhone());
 
         createOrderEvent.setCreatedAt(command.getCreatedAt());
+
+        createOrderEvent.setEmail(command.getEmail());
+
+        createOrderEvent.setFirstName(command.getFirstName());
+
+        createOrderEvent.setLastName(command.getLastName());
+
         AggregateLifecycle.apply(createOrderEvent);
     }
 

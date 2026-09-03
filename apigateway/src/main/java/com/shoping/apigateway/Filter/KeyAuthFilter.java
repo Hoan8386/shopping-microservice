@@ -10,7 +10,7 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
-
+// cái này filter với key 
 @Component
 public class KeyAuthFilter extends AbstractGatewayFilterFactory<KeyAuthFilter.Config> {
 
@@ -24,14 +24,6 @@ public class KeyAuthFilter extends AbstractGatewayFilterFactory<KeyAuthFilter.Co
     @Override
     public GatewayFilter apply(Config config) {
         return (exchange, chain) -> {
-            // String key = exchange.getRequest().getHeaders().getFirst("apiKey");
-            // if (key == null || key.isBlank()) {
-            // return handleException(exchange, "Missing authorization information",
-            // HttpStatus.UNAUTHORIZED);
-            // }
-            // if (!key.equals(apiKey)) {
-            // return handleException(exchange, "Invalid Api Key", HttpStatus.FORBIDDEN);
-            // }
             ServerHttpRequest request = exchange.getRequest();
             return chain.filter(exchange.mutate().request(request).build());
         };

@@ -40,10 +40,11 @@ public class OrderApplicationService {
     @Autowired
     private OrderRepository orderRepository;
 
-    public ResponseId createOrder(OrderRequestModel requestModel) {
+    public ResponseId createOrder(String userId, String email, String firstName, String lastName,
+            OrderRequestModel orderRequestModel) {
         Double totalAmount = 0D;
         List<OrderItemCommand> listOrderItemCommands = new ArrayList<>();
-        for (OrderItemRequestModel item : requestModel.getItems()) {
+        for (OrderItemRequestModel item : orderRequestModel.getItems()) {
             GetDetailProductQuery query = new GetDetailProductQuery(item.getProductDetailId());
             ProductDetailResponseCommonModel productDetail = queryGateway
                     .query(query, ResponseTypes.instanceOf(ProductDetailResponseCommonModel.class)).join();
@@ -64,19 +65,22 @@ public class OrderApplicationService {
         OrderCreateCommand orderCreateCommand = new OrderCreateCommand(
                 id,
                 "Order_" + id,
-                requestModel.getUserId(),
+                userId,
                 OrderStatus.PENDING,
                 totalAmount,
                 listOrderItemCommands,
-                requestModel.getShipAddress(),
-                requestModel.getShipPhone(),
-                LocalDateTime.now());
+                orderRequestModel.getShipAddress(),
+                orderRequestModel.getShipPhone(),
+                LocalDateTime.now(),
+                email,
+                firstName,
+                lastName);
         ResponseId responseId = new ResponseId(commandGateway.sendAndWait(orderCreateCommand));
         return responseId;
 
     }
 
-    public ResponseId updateOrder(String orderId, OrderRequestModel requestModel) {
+    public ResponseId updateOrder(String orderId, OrderRequestModel orderRequestModel) {
         ResponseId responseId = null;
         Optional<Order> optional = orderRepository.findById(orderId);
         if (optional.isPresent()) {
@@ -84,8 +88,8 @@ public class OrderApplicationService {
             OrderUpdateCommand orderUpdateCommand = new OrderUpdateCommand();
             orderUpdateCommand.setId(orderId);
             orderUpdateCommand.setStatus(curOrder.getStatus());
-            orderUpdateCommand.setShipPhone(requestModel.getShipPhone());
-            orderUpdateCommand.setShipAddress(requestModel.getShipAddress());
+            orderUpdateCommand.setShipPhone(orderRequestModel.getShipPhone());
+            orderUpdateCommand.setShipAddress(orderRequestModel.getShipAddress());
 
             responseId = new ResponseId(commandGateway.sendAndWait(orderUpdateCommand));
         }

@@ -1,10 +1,5 @@
 package com.shoping.orderservice.command.controller;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.UUID;
-
-import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,23 +7,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.shoping.commonservice.util.anotation.ApiMessage;
 import com.shoping.commonservice.util.anotation.ResponseId;
-import com.shoping.orderservice.OrderserviceApplication;
-import com.shoping.orderservice.command.command.OrderCreateCommand;
-import com.shoping.orderservice.command.command.OrderItemCommand;
-import com.shoping.orderservice.command.data.Order;
-import com.shoping.orderservice.command.data.OrderItem;
-import com.shoping.orderservice.command.data.OrderStatus;
+
 import com.shoping.orderservice.command.model.OrderRequestModel;
 import com.shoping.orderservice.command.service.OrderApplicationService;
 
-import io.axoniq.axonserver.grpc.command.Command;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -37,15 +24,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class OrderCommandController {
 
     @Autowired
-    private CommandGateway commandGateway;
-
-    @Autowired
     private OrderApplicationService orderApplicationService;
 
     @PostMapping
     @ApiMessage("Create Order")
-    public ResponseEntity<ResponseId> postMethodName(@RequestBody OrderRequestModel requestModel) {
-        ResponseId orderId = orderApplicationService.createOrder(requestModel);
+    public ResponseEntity<ResponseId> postMethodName(
+            @RequestHeader("X-User-Id") String userId,
+            @RequestHeader("X-Username") String username,
+            @RequestHeader("X-User-Email") String email,
+            @RequestHeader("X-First-Name") String firstName,
+            @RequestHeader("X-Last-Name") String lastName,
+            @RequestBody OrderRequestModel orderRequestModel) {
+        ResponseId orderId = orderApplicationService.createOrder(userId, email , firstName , lastName , orderRequestModel);
         return ResponseEntity.status(HttpStatus.CREATED).body(orderId);
     }
 

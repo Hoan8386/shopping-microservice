@@ -79,8 +79,9 @@ public class OrderSaga {
             OrderNotification notification = new OrderNotification();
 
             notification.setOrderId(event.getId());
-            notification.setEmail("hoan33356@gmail.com");
-            notification.setCustomerName("hoan");
+            notification.setEmail(event.getEmail());
+            notification.setFistName(event.getFirstName());
+            notification.setLastName(event.getLastName());
             notification.setItems(event.getListItems());
             notification.setTotalPrice(totalPrice);
             kafkaService.sendMessage("confirmOrder", orderNotification);
