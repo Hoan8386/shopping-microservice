@@ -25,62 +25,68 @@ import tools.jackson.databind.ObjectMapper;
 
 public class EventConsumer {
 
-    @Autowired
-    EmailService emailService;
+        @Autowired
+        EmailService emailService;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+        @Autowired
+        private ObjectMapper objectMapper;
 
-    @RetryableTopic(attempts = "4", // 3 topic retry + 1 topic DLQ
-            backOff = @BackOff(delay = 1000, multiplier = 2), // thời gian delay giữa các lần retry
-            autoCreateTopics = "True", // tự động tạo topic
-            dltStrategy = DltStrategy.ALWAYS_RETRY_ON_ERROR, // cơ chế retry
-            include = { RetriableException.class, RuntimeException.class } // chỉ quan sát những lối này thôi
-    )
+        @RetryableTopic(attempts = "4", // 3 topic retry + 1 topic DLQ
+                        backOff = @BackOff(delay = 1000, multiplier = 2), // thời gian delay giữa các lần retry
+                        autoCreateTopics = "True", // tự động tạo topic
+                        dltStrategy = DltStrategy.ALWAYS_RETRY_ON_ERROR, // cơ chế retry
+                        include = { RetriableException.class, RuntimeException.class } // chỉ quan sát những lối này
+                                                                                       // thôi
+        )
 
-    @KafkaListener(topics = "test", containerFactory = "kafkaListenerContainerFactory") // cấu hình containerFactory từ
-                                                                                        // // trong common service //
-                                                                                        // KafkaConfig.java
-    public void listen(String message) {
-        log.info("Received message : " + message);
-        throw new RuntimeException("error test");
-    }
+        @KafkaListener(topics = "test", containerFactory = "kafkaListenerContainerFactory") // cấu hình containerFactory
+                                                                                            // từ
+                                                                                            // // trong common service
+                                                                                            // //
+                                                                                            // KafkaConfig.java
+        public void listen(String message) {
+                log.info("Received message : " + message);
+                throw new RuntimeException("error test");
+        }
 
-    @DltHandler
-    void handleDltMessage(@Payload String message) {
-        log.info("DLT received message : " + message);
-    }
+        @DltHandler
+        void handleDltMessage(@Payload String message) {
+                log.info("DLT received message : " + message);
+        }
 
-    @KafkaListener(topics = "confirmOrder", containerFactory = "kafkaListenerContainerFactory")
-    public void confirmOrder(String message) {
-        log.info("Received confirm order message: {}", message);
-        OrderNotification orderNotification = objectMapper.readValue(message, OrderNotification.class);
+        @KafkaListener(topics = "confirmOrder", containerFactory = "kafkaListenerContainerFactory")
+        public void confirmOrder(String message) {
+                log.info("Received confirm order message: {}", message);
+                OrderNotification orderNotification = objectMapper.readValue(message, OrderNotification.class);
 
-        Map<String, Object> placeholders = new HashMap<>();
+                Map<String, Object> placeholders = new HashMap<>();
 
-        placeholders.put(
-                "orderId",
-                orderNotification.getOrderId());
+                placeholders.put(
+                                "orderId",
+                                orderNotification.getOrderId());
 
-        placeholders.put(
-                "name",
-                orderNotification.getCustomerName());
+                placeholders.put(
+                                "firstName",
+                                orderNotification.getFistName());
 
-        placeholders.put(
-                "items",
-                orderNotification.getItems());
+                placeholders.put(
+                                "lastName",
+                                orderNotification.getLastName());
 
-        placeholders.put(
-                "totalPrice",
-                orderNotification.getTotalPrice());
+                placeholders.put(
+                                "items",
+                                orderNotification.getItems());
 
+                placeholders.put(
+                                "totalPrice",
+                                orderNotification.getTotalPrice());
 
-        emailService.sendEmailWithTemplate(
-                orderNotification.getEmail(),
-                "Confirm Order",
-                "emailOrder.ftl",
-                placeholders,
-                null);
+                emailService.sendEmailWithTemplate(
+                                orderNotification.getEmail(),
+                                "Confirm Order",
+                                "emailOrder.ftl",
+                                placeholders,
+                                null);
 
-    }
+        }
 }

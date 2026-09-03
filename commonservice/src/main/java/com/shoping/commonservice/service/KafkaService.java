@@ -31,8 +31,8 @@ public class KafkaService {
     private ObjectMapper objectMapper;
 
     public void sendMessage(String topic, Object data) {
-        String message = objectMapper.writeValueAsString(data);
-        kafkaTemplate.send(topic, message);
+        String dataJson = objectMapper.writeValueAsString(data);
+        kafkaTemplate.send(topic, dataJson);
         log.info("Message sent to topic {}", topic);
     }
 }
