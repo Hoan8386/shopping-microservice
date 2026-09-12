@@ -20,13 +20,15 @@ spring:
 
           routes:
             - id: userservice-public
-              uri: lb://userservice
+              # uri: lb://userservice
+              uri: http://localhost:9005
               predicates:
                 - Path=/api/v1/public/**
               
 
             - id: userservice-protected
-              uri: lb://userservice
+              # uri: lb://userservice
+              uri: http://localhost:9005
               predicates:
                 - Path=/api/v1/users/**
               filters:
@@ -56,7 +58,8 @@ spring:
                     redis-rate-limiter.burstCapacity: 20
                     redis-rate-limiter.requestedTokens: 1
             - id: order
-              uri: lb://orderservice
+              uri: http://localhost:9004
+              # uri: lb://orderservice 
               predicates:
                 - Path=/api/v1/order/**
               filters:

@@ -68,6 +68,8 @@ public class OrderSaga {
 
                     processedItems.add(item);
 
+                    System.out.println("check command" + command);
+
                 } else {
                     throw new InsufficientStockException(
                             "Sản phẩm " + bookResponseCommonModel.getId() + "không còn đủ số lượng");

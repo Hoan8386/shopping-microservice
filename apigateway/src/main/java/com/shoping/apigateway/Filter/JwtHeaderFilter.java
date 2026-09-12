@@ -42,6 +42,7 @@ public class JwtHeaderFilter extends AbstractGatewayFilterFactory<JwtHeaderFilte
                     var email = claims.get("email").toString();
                     var firstName = claims.get("given_name").toString();
                     var lastName = claims.get("family_name").toString();
+                    System.out.print("claims" + claims);
                     System.out.print("userName" + userName);
                     System.out.print("userId" + userId);
 

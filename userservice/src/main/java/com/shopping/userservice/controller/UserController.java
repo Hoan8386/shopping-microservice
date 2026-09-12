@@ -17,10 +17,7 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
-    @PostMapping
-    public ResponseEntity<UserResponseDTO> createUser(@RequestBody CreateUserRequestDTO dto) {
-        return ResponseEntity.ok(userService.createUser(dto));
-    }
+    
 
     @GetMapping
     public ResponseEntity<List<UserResponseDTO>> getAllUsers(@RequestHeader(value ="X-User-Id", required = false ) String userId) {
