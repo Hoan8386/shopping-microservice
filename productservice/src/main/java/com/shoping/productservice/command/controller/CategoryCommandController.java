@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
-@RequestMapping("/api/v1/category")
+@RequestMapping("/api/v1/product/category")
 public class CategoryCommandController {
     @Autowired
     private CommandGateway commandGateway;

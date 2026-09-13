@@ -20,7 +20,7 @@ import com.shoping.productservice.query.queries.GetAllProductDetailQuery;
 import com.shoping.productservice.query.queries.GetProductDetailByIdQuery;
 
 @RestController
-@RequestMapping("/api/v1/product-details")
+@RequestMapping("/api/v1/product/detail")
 public class ProductDetailQueryController {
     @Autowired
     private QueryGateway queryGateway;

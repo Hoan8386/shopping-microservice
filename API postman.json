@@ -2,45 +2,225 @@
   "info": {
     "name": "Shopping Microservice",
     "_postman_id": "d7b0f98d-9b3b-4f59-9c14-0f4a563caa20",
+    "description": "Complete API collection for Shopping Microservice platform.\n\nServices:\n- Product Service (port 9002)\n- Employee Service (port 9003)\n- Order Service (port 9004)\n- User Service (port 9005)\n- API Gateway (port 8080)\n\nAll requests default to API Gateway. Use direct service URLs for debugging.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
     {
-      "name": "product",
+      "name": "Auth (Public)",
+      "description": "Public endpoints — no JWT required",
       "item": [
         {
-          "name": "Test API OK",
+          "name": "Login",
           "request": {
-            "method": "GET",
-            "header": [],
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
-              "raw": "{{baseUrl}}/api/v1/products",
+              "raw": "{{baseUrl}}/api/v1/public/login",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "v1",
-                "products"
+                "public",
+                "login"
               ]
             }
           },
           "response": []
         },
         {
-          "name": "Get All Products",
+          "name": "Register User",
           "request": {
-            "method": "GET",
-            "header": [],
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"newuser@example.com\",\n  \"username\": \"newuser\",\n  \"firstName\": \"Nguyen\",\n  \"lastName\": \"Van A\",\n  \"dob\": \"1995-06-15\",\n  \"name\": \"Nguyen Van A\",\n  \"password\": \"password123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
-              "raw": "{{baseUrl}}/api/v1/products",
+              "raw": "{{baseUrl}}/api/v1/public/create",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "v1",
-                "products"
+                "public",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "User",
+      "description": "User management — requires JWT via API Gateway",
+      "item": [
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get User By Id",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/users/{{userId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "users",
+                "{{userId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"updated@example.com\",\n  \"username\": \"updateduser\",\n  \"firstName\": \"Nguyen\",\n  \"lastName\": \"Van B\",\n  \"dob\": \"1995-06-15\",\n  \"name\": \"Nguyen Van B\",\n  \"password\": \"newpassword123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/users/{{userId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "users",
+                "{{userId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/users/{{userId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "users",
+                "{{userId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Product",
+      "description": "Product CQRS endpoints (Command + Query)",
+      "item": [
+        {
+          "name": "Get All Products",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/product",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "product"
               ]
             }
           },
@@ -50,16 +230,21 @@
           "name": "Get Product Detail",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
             "url": {
-              "raw": "{{baseUrl}}/api/v1/products/{{productId}}",
+              "raw": "{{baseUrl}}/api/v1/product/{{productId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "v1",
-                "products",
+                "product",
                 "{{productId}}"
               ]
             }
@@ -70,34 +255,43 @@
           "name": "Filter Products",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
             "url": {
-              "raw": "{{baseUrl}}/api/v1/products/filter?name=&category=&minPrice=&maxPrice=",
+              "raw": "{{baseUrl}}/api/v1/product/filter?name=&category=&minPrice=&maxPrice=",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "v1",
-                "products",
+                "product",
                 "filter"
               ],
               "query": [
                 {
                   "key": "name",
-                  "value": ""
+                  "value": "",
+                  "description": "Filter by product name"
                 },
                 {
                   "key": "category",
-                  "value": ""
+                  "value": "",
+                  "description": "Filter by category"
                 },
                 {
                   "key": "minPrice",
-                  "value": ""
+                  "value": "",
+                  "description": "Minimum price (Double)"
                 },
                 {
                   "key": "maxPrice",
-                  "value": ""
+                  "value": "",
+                  "description": "Maximum price (Double)"
                 }
               ]
             }
@@ -112,21 +306,30 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Sample Product\",\n  \"description\": \"Sample description\",\n  \"price\": 19.99,\n  \"quantity\": 10,\n  \"idCategory\": \"replace-with-category-id\",\n  \"imageUrl\": \"https://example.com/image.png\"\n}"
+              "raw": "{\n  \"name\": \"Sample Product\",\n  \"description\": \"Sample description\",\n  \"price\": 19.99,\n  \"quantity\": 10,\n  \"idCategory\": \"replace-with-category-id\",\n  \"imageUrl\": \"https://example.com/image.png\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
             },
             "url": {
-              "raw": "{{baseUrl}}/api/v1/products",
+              "raw": "{{baseUrl}}/api/v1/product",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "v1",
-                "products"
+                "product"
               ]
             }
           },
@@ -140,21 +343,30 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Updated Product\",\n  \"description\": \"Updated description\",\n  \"price\": 24.99,\n  \"quantity\": 5,\n  \"idCategory\": \"replace-with-category-id\",\n  \"imageUrl\": \"https://example.com/image-updated.png\"\n}"
+              "raw": "{\n  \"name\": \"Updated Product\",\n  \"description\": \"Updated description\",\n  \"price\": 24.99,\n  \"quantity\": 5,\n  \"idCategory\": \"replace-with-category-id\",\n  \"imageUrl\": \"https://example.com/image-updated.png\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
             },
             "url": {
-              "raw": "{{baseUrl}}/api/v1/products/{{productId}}",
+              "raw": "{{baseUrl}}/api/v1/product/{{productId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "v1",
-                "products",
+                "product",
                 "{{productId}}"
               ]
             }
@@ -165,17 +377,60 @@
           "name": "Delete Product",
           "request": {
             "method": "DELETE",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
             "url": {
-              "raw": "{{baseUrl}}/api/v1/products/{{productId}}",
+              "raw": "{{baseUrl}}/api/v1/product/{{productId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "v1",
-                "products",
+                "product",
                 "{{productId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Send Kafka Message",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "\"Hello from Postman\"",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/product/sendMessage",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "product",
+                "sendMessage"
               ]
             }
           },
@@ -184,21 +439,28 @@
       ]
     },
     {
-      "name": "category",
+      "name": "Category",
+      "description": "Category CQRS endpoints under Product Service",
       "item": [
         {
           "name": "Get All Categories",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
             "url": {
-              "raw": "{{baseUrl}}/api/v1/category",
+              "raw": "{{baseUrl}}/api/v1/product/category",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "v1",
+                "product",
                 "category"
               ]
             }
@@ -209,15 +471,21 @@
           "name": "Get Category Detail",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
             "url": {
-              "raw": "{{baseUrl}}/api/v1/category/{{categoryId}}",
+              "raw": "{{baseUrl}}/api/v1/product/category/{{categoryId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "v1",
+                "product",
                 "category",
                 "{{categoryId}}"
               ]
@@ -233,20 +501,30 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Sample Category\",\n  \"description\": \"Sample description\",\n  \"status\": true\n}"
+              "raw": "{\n  \"name\": \"Sample Category\",\n  \"description\": \"Sample description\",\n  \"status\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
             },
             "url": {
-              "raw": "{{baseUrl}}/api/v1/category",
+              "raw": "{{baseUrl}}/api/v1/product/category",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "v1",
+                "product",
                 "category"
               ]
             }
@@ -261,20 +539,30 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Updated Category\",\n  \"description\": \"Updated description\",\n  \"status\": true\n}"
+              "raw": "{\n  \"name\": \"Updated Category\",\n  \"description\": \"Updated description\",\n  \"status\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
             },
             "url": {
-              "raw": "{{baseUrl}}/api/v1/category/{{categoryId}}",
+              "raw": "{{baseUrl}}/api/v1/product/category/{{categoryId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "v1",
+                "product",
                 "category",
                 "{{categoryId}}"
               ]
@@ -286,15 +574,21 @@
           "name": "Delete Category",
           "request": {
             "method": "DELETE",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
             "url": {
-              "raw": "{{baseUrl}}/api/v1/category/{{categoryId}}",
+              "raw": "{{baseUrl}}/api/v1/product/category/{{categoryId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "v1",
+                "product",
                 "category",
                 "{{categoryId}}"
               ]
@@ -305,21 +599,28 @@
       ]
     },
     {
-      "name": "size",
+      "name": "Size",
+      "description": "Size CQRS endpoints under Product Service",
       "item": [
         {
           "name": "Get All Sizes",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
             "url": {
-              "raw": "{{baseUrl}}/api/v1/size",
+              "raw": "{{baseUrl}}/api/v1/product/size",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "v1",
+                "product",
                 "size"
               ]
             }
@@ -330,15 +631,21 @@
           "name": "Get Size Detail",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
             "url": {
-              "raw": "{{baseUrl}}/api/v1/size/{{sizeId}}",
+              "raw": "{{baseUrl}}/api/v1/product/size/{{sizeId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "v1",
+                "product",
                 "size",
                 "{{sizeId}}"
               ]
@@ -354,20 +661,30 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Size S\",\n  \"description\": \"Small size\",\n  \"status\": true\n}"
+              "raw": "{\n  \"name\": \"Size S\",\n  \"description\": \"Small size\",\n  \"status\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
             },
             "url": {
-              "raw": "{{baseUrl}}/api/v1/size",
+              "raw": "{{baseUrl}}/api/v1/product/size",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "v1",
+                "product",
                 "size"
               ]
             }
@@ -382,20 +699,30 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Size M\",\n  \"description\": \"Medium size\",\n  \"status\": true\n}"
+              "raw": "{\n  \"name\": \"Size M\",\n  \"description\": \"Medium size\",\n  \"status\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
             },
             "url": {
-              "raw": "{{baseUrl}}/api/v1/size/{{sizeId}}",
+              "raw": "{{baseUrl}}/api/v1/product/size/{{sizeId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "v1",
+                "product",
                 "size",
                 "{{sizeId}}"
               ]
@@ -407,15 +734,21 @@
           "name": "Delete Size",
           "request": {
             "method": "DELETE",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
             "url": {
-              "raw": "{{baseUrl}}/api/v1/size/{{sizeId}}",
+              "raw": "{{baseUrl}}/api/v1/product/size/{{sizeId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "v1",
+                "product",
                 "size",
                 "{{sizeId}}"
               ]
@@ -426,41 +759,54 @@
       ]
     },
     {
-      "name": "product-detail",
+      "name": "Product Detail",
+      "description": "Product Detail (variant) CQRS endpoints under Product Service",
       "item": [
         {
           "name": "Get All Product Details",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
             "url": {
-              "raw": "{{baseUrl}}/api/v1/product-details",
+              "raw": "{{baseUrl}}/api/v1/product/detail",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "v1",
-                "product-details"
+                "product",
+                "detail"
               ]
             }
           },
           "response": []
         },
         {
-          "name": "Get Product Detail",
+          "name": "Get Product Detail By Id",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
             "url": {
-              "raw": "{{baseUrl}}/api/v1/product-details/{{productDetailId}}",
+              "raw": "{{baseUrl}}/api/v1/product/detail/{{productDetailId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "v1",
-                "product-details",
+                "product",
+                "detail",
                 "{{productDetailId}}"
               ]
             }
@@ -475,21 +821,31 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"productId\": \"replace-with-product-id\",\n  \"sizeId\": \"replace-with-size-id\",\n  \"quantity\": 10,\n  \"price\": 19.99,\n  \"status\": true\n}"
+              "raw": "{\n  \"productId\": \"replace-with-product-id\",\n  \"sizeId\": \"replace-with-size-id\",\n  \"quantity\": 10,\n  \"price\": 19.99,\n  \"status\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
             },
             "url": {
-              "raw": "{{baseUrl}}/api/v1/product-details",
+              "raw": "{{baseUrl}}/api/v1/product/detail",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "v1",
-                "product-details"
+                "product",
+                "detail"
               ]
             }
           },
@@ -503,21 +859,31 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"productId\": \"replace-with-product-id\",\n  \"sizeId\": \"replace-with-size-id\",\n  \"quantity\": 8,\n  \"price\": 17.99,\n  \"status\": true\n}"
+              "raw": "{\n  \"productId\": \"replace-with-product-id\",\n  \"sizeId\": \"replace-with-size-id\",\n  \"quantity\": 8,\n  \"price\": 17.99,\n  \"status\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
             },
             "url": {
-              "raw": "{{baseUrl}}/api/v1/product-details/{{productDetailId}}",
+              "raw": "{{baseUrl}}/api/v1/product/detail/{{productDetailId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "v1",
-                "product-details",
+                "product",
+                "detail",
                 "{{productDetailId}}"
               ]
             }
@@ -528,16 +894,22 @@
           "name": "Delete Product Detail",
           "request": {
             "method": "DELETE",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
             "url": {
-              "raw": "{{baseUrl}}/api/v1/product-details/{{productDetailId}}",
+              "raw": "{{baseUrl}}/api/v1/product/detail/{{productDetailId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "v1",
-                "product-details",
+                "product",
+                "detail",
                 "{{productDetailId}}"
               ]
             }
@@ -547,17 +919,23 @@
       ]
     },
     {
-      "name": "employee",
+      "name": "Employee",
+      "description": "Employee CQRS endpoints",
       "item": [
         {
           "name": "Get All Employees",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
             "url": {
-              "raw": "{{employeeBaseUrl}}/api/v1/employees",
+              "raw": "{{baseUrl}}/api/v1/employees",
               "host": [
-                "{{employeeBaseUrl}}"
+                "{{baseUrl}}"
               ],
               "path": [
                 "api",
@@ -572,11 +950,16 @@
           "name": "Get Employee Detail",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
             "url": {
-              "raw": "{{employeeBaseUrl}}/api/v1/employees/{{employeeId}}",
+              "raw": "{{baseUrl}}/api/v1/employees/{{employeeId}}",
               "host": [
-                "{{employeeBaseUrl}}"
+                "{{baseUrl}}"
               ],
               "path": [
                 "api",
@@ -592,11 +975,16 @@
           "name": "Filter Employees",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
             "url": {
-              "raw": "{{employeeBaseUrl}}/api/v1/employees/filter?firstName=&lastName=&email=&isDisciplined=",
+              "raw": "{{baseUrl}}/api/v1/employees/filter?firstName=&lastName=&email=&isDisciplined=",
               "host": [
-                "{{employeeBaseUrl}}"
+                "{{baseUrl}}"
               ],
               "path": [
                 "api",
@@ -607,19 +995,23 @@
               "query": [
                 {
                   "key": "firstName",
-                  "value": ""
+                  "value": "",
+                  "description": "Filter by first name"
                 },
                 {
                   "key": "lastName",
-                  "value": ""
+                  "value": "",
+                  "description": "Filter by last name"
                 },
                 {
                   "key": "email",
-                  "value": ""
+                  "value": "",
+                  "description": "Filter by email"
                 },
                 {
                   "key": "isDisciplined",
-                  "value": ""
+                  "value": "",
+                  "description": "Filter by discipline status (Boolean)"
                 }
               ]
             }
@@ -634,6 +1026,10 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
               }
             ],
             "body": {
@@ -646,9 +1042,9 @@
               }
             },
             "url": {
-              "raw": "{{employeeBaseUrl}}/api/v1/employees",
+              "raw": "{{baseUrl}}/api/v1/employees",
               "host": [
-                "{{employeeBaseUrl}}"
+                "{{baseUrl}}"
               ],
               "path": [
                 "api",
@@ -667,6 +1063,10 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
               }
             ],
             "body": {
@@ -679,9 +1079,9 @@
               }
             },
             "url": {
-              "raw": "{{employeeBaseUrl}}/api/v1/employees/{{employeeId}}",
+              "raw": "{{baseUrl}}/api/v1/employees/{{employeeId}}",
               "host": [
-                "{{employeeBaseUrl}}"
+                "{{baseUrl}}"
               ],
               "path": [
                 "api",
@@ -697,11 +1097,16 @@
           "name": "Delete Employee",
           "request": {
             "method": "DELETE",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
             "url": {
-              "raw": "{{employeeBaseUrl}}/api/v1/employees/{{employeeId}}",
+              "raw": "{{baseUrl}}/api/v1/employees/{{employeeId}}",
               "host": [
-                "{{employeeBaseUrl}}"
+                "{{baseUrl}}"
               ],
               "path": [
                 "api",
@@ -714,12 +1119,218 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Order",
+      "description": "Order CQRS endpoints — Create Order requires X-User-* headers (injected by JwtHeaderFilter via Gateway)",
+      "item": [
+        {
+          "name": "Get All Orders",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/order",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "order"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Order Detail",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/order/{{orderId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "order",
+                "{{orderId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "replace-with-user-id",
+                "description": "Injected by Gateway JwtHeaderFilter. Set manually for direct service calls."
+              },
+              {
+                "key": "X-Username",
+                "value": "admin",
+                "description": "Injected by Gateway JwtHeaderFilter"
+              },
+              {
+                "key": "X-User-Email",
+                "value": "admin@example.com",
+                "description": "Injected by Gateway JwtHeaderFilter"
+              },
+              {
+                "key": "X-First-Name",
+                "value": "Nguyen",
+                "description": "Injected by Gateway JwtHeaderFilter"
+              },
+              {
+                "key": "X-Last-Name",
+                "value": "Van A",
+                "description": "Injected by Gateway JwtHeaderFilter"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    {\n      \"productDetailId\": \"replace-with-product-detail-id\",\n      \"quantity\": 2\n    },\n    {\n      \"productDetailId\": \"replace-with-another-product-detail-id\",\n      \"quantity\": 1\n    }\n  ],\n  \"shipAddress\": \"123 Main Street, Ho Chi Minh City\",\n  \"shipPhone\": \"0901234567\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/order",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "order"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Order",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    {\n      \"productDetailId\": \"replace-with-product-detail-id\",\n      \"quantity\": 3\n    }\n  ],\n  \"shipAddress\": \"456 Updated Street, Ho Chi Minh City\",\n  \"shipPhone\": \"0909876543\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/order/p/{{orderId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "order",
+                "p",
+                "{{orderId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Order",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/order",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "order"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "variable": [
     {
       "key": "baseUrl",
-      "value": "http://localhost:9001"
+      "value": "http://localhost:8080",
+      "description": "API Gateway (default). Change to direct service URL for debugging."
+    },
+    {
+      "key": "productServiceUrl",
+      "value": "http://localhost:9002",
+      "description": "Direct Product Service URL"
+    },
+    {
+      "key": "employeeServiceUrl",
+      "value": "http://localhost:9003",
+      "description": "Direct Employee Service URL"
+    },
+    {
+      "key": "orderServiceUrl",
+      "value": "http://localhost:9004",
+      "description": "Direct Order Service URL"
+    },
+    {
+      "key": "userServiceUrl",
+      "value": "http://localhost:9005",
+      "description": "Direct User Service URL"
+    },
+    {
+      "key": "accessToken",
+      "value": "replace-with-jwt-token",
+      "description": "JWT access token from Login endpoint"
     },
     {
       "key": "productId",
@@ -738,12 +1349,17 @@
       "value": "replace-with-product-detail-id"
     },
     {
-      "key": "employeeBaseUrl",
-      "value": "http://localhost:9003"
-    },
-    {
       "key": "employeeId",
       "value": "replace-with-employee-id"
+    },
+    {
+      "key": "orderId",
+      "value": "replace-with-order-id"
+    },
+    {
+      "key": "userId",
+      "value": "1",
+      "description": "User ID (Long type for User Service)"
     }
   ]
 }

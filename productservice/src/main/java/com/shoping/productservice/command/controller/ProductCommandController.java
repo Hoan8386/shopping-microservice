@@ -40,7 +40,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 // 6 @EventHandler (projection/handler bên ngoài aggregate) nhận event và lưu xuống database read model (ở bạn là bảng products).
 
 @RestController
-@RequestMapping("/api/v1/products")
+@RequestMapping("/api/v1/product")
 public class ProductCommandController {
     @Autowired
     private CommandGateway commandGateway;

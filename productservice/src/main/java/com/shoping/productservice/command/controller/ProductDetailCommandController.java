@@ -24,7 +24,7 @@ import com.shoping.productservice.command.model.ProductDetailRequestModel;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/v1/product-details")
+@RequestMapping("/api/v1/product/detail")
 public class ProductDetailCommandController {
     @Autowired
     private CommandGateway commandGateway;

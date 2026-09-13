@@ -35,7 +35,7 @@ spring:
                 - name: JwtHeaderFilter
 
             - id: product
-              uri: lb://productservice
+              uri: http://localhost:9002
               predicates:
                 - Path=/api/v1/product/**
               filters:

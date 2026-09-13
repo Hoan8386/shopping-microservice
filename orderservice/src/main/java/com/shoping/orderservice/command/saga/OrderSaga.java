@@ -68,6 +68,8 @@ public class OrderSaga {
 
                     processedItems.add(item);
 
+                     totalPrice += item.getUnitPrice() * item.getQuantity();
+
                     System.out.println("check command" + command);
 
                 } else {
@@ -76,17 +78,17 @@ public class OrderSaga {
                 }
             }
 
-            SagaLifecycle.end();
+            
             OrderNotification orderNotification = new OrderNotification();
-            OrderNotification notification = new OrderNotification();
 
-            notification.setOrderId(event.getId());
-            notification.setEmail(event.getEmail());
-            notification.setFistName(event.getFirstName());
-            notification.setLastName(event.getLastName());
-            notification.setItems(event.getListItems());
-            notification.setTotalPrice(totalPrice);
+            orderNotification.setOrderId(event.getId());
+            orderNotification.setEmail(event.getEmail());
+            orderNotification.setFistName(event.getFirstName());
+            orderNotification.setLastName(event.getLastName());
+            orderNotification.setItems(event.getListItems());
+            orderNotification.setTotalPrice(totalPrice);
             kafkaService.sendMessage("confirmOrder", orderNotification);
+            SagaLifecycle.end();
         } catch (Exception e) {
             rollbackProducts(processedItems);
             rollBackOrderRecord(event.getId());
