@@ -69,6 +69,18 @@ spring:
                     redis-rate-limiter.replenishRate: 10
                     redis-rate-limiter.burstCapacity: 20
                     redis-rate-limiter.requestedTokens: 1
+            - id: cart
+              uri: http://localhost:9006
+              # uri: lb://cartservice
+              predicates:
+                - Path=/api/v1/cart/**
+              filters:
+                - name: JwtHeaderFilter
+                - name: RequestRateLimiter
+                  args:
+                    redis-rate-limiter.replenishRate: 10
+                    redis-rate-limiter.burstCapacity: 20
+                    redis-rate-limiter.requestedTokens: 1
       globalcors:
         add-to-simple-url-handler-mapping: true
         cors-configurations:
