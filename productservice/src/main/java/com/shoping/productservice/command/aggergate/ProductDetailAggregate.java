@@ -8,6 +8,7 @@ import org.axonframework.spring.stereotype.Aggregate;
 import org.springframework.beans.BeanUtils;
 
 import com.shoping.commonservice.command.UpdateProductDetailCommand;
+import com.shoping.commonservice.command.RollbackProductDetailCommand;
 import com.shoping.productservice.command.command.CreateProductDetailCommand;
 import com.shoping.productservice.command.command.DeleteProductDetailCommand;
 import com.shoping.productservice.command.data.ProductRepository;
@@ -65,6 +66,18 @@ public class ProductDetailAggregate {
         ProductDetailUpdateEvent updateEvent = new ProductDetailUpdateEvent();
         BeanUtils.copyProperties(command, updateEvent);
         AggregateLifecycle.apply(updateEvent);
+    }
+
+    @CommandHandler
+    public void handle(RollbackProductDetailCommand command) {
+        ProductDetailUpdateEvent rollbackEvent = new ProductDetailUpdateEvent(
+                this.id,
+                this.productId,
+                this.sizeId,
+                this.quantity + command.getQuantity(),
+                this.price,
+                true);
+        AggregateLifecycle.apply(rollbackEvent);
     }
 
     @CommandHandler

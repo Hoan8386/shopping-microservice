@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class OrderItemDTO {
 
 
-    private String productId;
+    private String productDetailId;
 
     private int quantity;
 

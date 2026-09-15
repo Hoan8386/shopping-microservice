@@ -12,6 +12,7 @@ import org.axonframework.queryhandling.QueryGateway;
 import org.axonframework.spring.stereotype.Saga;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.shoping.commonservice.command.ClearCartCommand;
 import com.shoping.commonservice.command.RollbackProductDetailCommand;
 import com.shoping.commonservice.command.UpdateProductDetailCommand;
 import com.shoping.commonservice.exception.InsufficientStockException;
@@ -46,7 +47,7 @@ public class OrderSaga {
         try {
             List<OrderItemDTO> listOrderItems = event.getListItems();
             for (OrderItemDTO item : listOrderItems) {
-                GetDetailProductQuery getDetailProductQuery = new GetDetailProductQuery(item.getProductId());
+                GetDetailProductQuery getDetailProductQuery = new GetDetailProductQuery(item.getProductDetailId());
                 ProductDetailResponseCommonModel bookResponseCommonModel = queryGateway.query(getDetailProductQuery,
                         ResponseTypes.instanceOf(ProductDetailResponseCommonModel.class)).join();
                 if (bookResponseCommonModel.getQuantity() >= item.getQuantity()) {
@@ -77,10 +78,11 @@ public class OrderSaga {
                             "Sản phẩm " + bookResponseCommonModel.getId() + "không còn đủ số lượng");
                 }
             }
-
             
-            OrderNotification orderNotification = new OrderNotification();
+            ClearCartCommand clearCartCommand = new ClearCartCommand(event.getUserId());
+            commandGateway.send(clearCartCommand);
 
+            OrderNotification orderNotification = new OrderNotification();
             orderNotification.setOrderId(event.getId());
             orderNotification.setEmail(event.getEmail());
             orderNotification.setFistName(event.getFirstName());
@@ -98,7 +100,7 @@ public class OrderSaga {
     private void rollbackProducts(List<OrderItemDTO> processedItems) {
         for (OrderItemDTO item : processedItems) {
             try {
-                GetDetailProductQuery query = new GetDetailProductQuery(item.getProductId());
+                GetDetailProductQuery query = new GetDetailProductQuery(item.getProductDetailId());
                 ProductDetailResponseCommonModel product = queryGateway.query(
                         query,
                         ResponseTypes.instanceOf(
@@ -119,7 +121,7 @@ public class OrderSaga {
             } catch (Exception e) {
                 log.error(
                         "Rollback ProductDetail {} thất bại: {}",
-                        item.getProductId(),
+                        item.getProductDetailId(),
                         e.getMessage());
             }
         }
@@ -134,5 +136,9 @@ public class OrderSaga {
         log.info(
                 "Đã rollback Order: {}",
                 id);
+    }
+
+    private  void rollBackCart( List<OrderItemDTO> processedItems , String userId) {
+        
     }
 }

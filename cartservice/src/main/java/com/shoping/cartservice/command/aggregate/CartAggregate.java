@@ -8,7 +8,6 @@ import org.axonframework.spring.stereotype.Aggregate;
 import org.springframework.beans.BeanUtils;
 
 import com.shoping.cartservice.command.command.AddItemToCartCommand;
-import com.shoping.cartservice.command.command.ClearCartCommand;
 import com.shoping.cartservice.command.command.CreateCartCommand;
 import com.shoping.cartservice.command.command.RemoveItemFromCartCommand;
 import com.shoping.cartservice.command.command.UpdateCartItemCommand;
@@ -17,6 +16,9 @@ import com.shoping.cartservice.command.event.CartCreatedEvent;
 import com.shoping.cartservice.command.event.CartItemUpdatedEvent;
 import com.shoping.cartservice.command.event.ItemAddedToCartEvent;
 import com.shoping.cartservice.command.event.ItemRemovedFromCartEvent;
+import com.shoping.commonservice.command.ClearCartCommand;
+import com.shoping.commonservice.command.RollBackCartCommand;
+import com.shoping.cartservice.command.event.CartRolledBackEvent;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -68,6 +70,15 @@ public class CartAggregate {
         AggregateLifecycle.apply(event);
     }
 
+    @CommandHandler
+    public void handle(RollBackCartCommand command) {
+        CartRolledBackEvent event = new CartRolledBackEvent(
+                this.id,
+                command.getUserId(),
+                command.getListOrderItems());
+        AggregateLifecycle.apply(event);
+    }
+
     @EventSourcingHandler
     public void on(CartCreatedEvent event) {
         this.id = event.getId();
@@ -92,5 +103,11 @@ public class CartAggregate {
     @EventSourcingHandler
     public void on(CartClearedEvent event) {
         this.id = event.getId();
+    }
+
+    @EventSourcingHandler
+    public void on(CartRolledBackEvent event) {
+        this.id = event.getId();
+        this.userId = event.getUserId();
     }
 }

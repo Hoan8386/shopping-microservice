@@ -67,7 +67,7 @@ public class OrderAggregate {
         List<OrderItemDTO> items = command.getListItems().stream().map(
                 item -> {
                     OrderItemDTO dto = new OrderItemDTO();
-                    dto.setProductId(item.getProductDetailId());
+                    dto.setProductDetailId(item.getProductDetailId());
                     dto.setQuantity(item.getQuantity());
                     dto.setSubtotal(item.getSubTotal());
                     dto.setUnitPrice(item.getUnitPrice());

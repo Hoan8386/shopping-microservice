@@ -39,7 +39,7 @@ public class OrderEventHandler {
             for (OrderItemDTO itemDTO : event.getListItems()) {
                 OrderItem orderItem = new OrderItem();
                 orderItem.setId(UUID.randomUUID().toString());
-                orderItem.setProductId(itemDTO.getProductId());
+                orderItem.setProductId(itemDTO.getProductDetailId());
                 orderItem.setQuantity(itemDTO.getQuantity());
                 orderItem.setUnitPrice(itemDTO.getUnitPrice());
                 orderItem.setSubtotal(itemDTO.getSubtotal());

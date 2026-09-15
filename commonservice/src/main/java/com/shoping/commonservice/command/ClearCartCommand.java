@@ -1,4 +1,4 @@
-package com.shoping.cartservice.command.command;
+package com.shoping.commonservice.command;
 
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
@@ -12,7 +12,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ClearCartCommand {
-
-    @TargetAggregateIdentifier
-    private String id;
+      @TargetAggregateIdentifier 
+      private String userId;
 }

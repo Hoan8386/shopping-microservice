@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.List;
 
 import org.axonframework.eventhandling.EventHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import com.shoping.cartservice.command.data.Cart;
 import com.shoping.cartservice.command.data.CartItem;
 import com.shoping.cartservice.command.data.CartItemRepository;
 import com.shoping.cartservice.command.data.CartRepository;
+import com.shoping.commonservice.model.response.DTO.OrderItemDTO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -124,6 +126,42 @@ public class CartEventHandler {
             cart.setUpdatedAt(LocalDateTime.now());
             cartRepository.save(cart);
         }
+    }
+
+    @EventHandler
+    @Transactional
+    public void on(CartRolledBackEvent event) {
+        log.info("Handling CartRolledBackEvent for cartId: {}", event.getId());
+        Optional<Cart> optionalCart = cartRepository.findById(event.getId());
+        if (optionalCart.isEmpty()) {
+            return;
+        }
+
+        Cart cart = optionalCart.get();
+        List<OrderItemDTO> orderItems = event.getListOrderItems();
+        if (orderItems != null) {
+            for (OrderItemDTO orderItem : orderItems) {
+                Optional<CartItem> optionalItem = cartItemRepository.findByCartIdAndProductDetailId(
+                        cart.getId(), orderItem.getProductDetailId());
+                if (optionalItem.isPresent()) {
+                    CartItem item = optionalItem.get();
+                    item.setQuantity(item.getQuantity() + orderItem.getQuantity());
+                    item.setSubtotal(item.getUnitPrice() * item.getQuantity());
+                    cartItemRepository.save(item);
+                } else {
+                    CartItem item = CartItem.builder()
+                            .id(UUID.randomUUID().toString())
+                            .productDetailId(orderItem.getProductDetailId())
+                            .quantity(orderItem.getQuantity())
+                            .unitPrice(orderItem.getUnitPrice())
+                            .subtotal(orderItem.getSubtotal())
+                            .cart(cart)
+                            .build();
+                    cartItemRepository.save(item);
+                }
+            }
+        }
+        recalculateCartTotal(cart.getId());
     }
 
     private void recalculateCartTotal(String cartId) {
