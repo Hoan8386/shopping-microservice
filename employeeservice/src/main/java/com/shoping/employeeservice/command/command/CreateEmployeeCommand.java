@@ -16,6 +16,8 @@ public class CreateEmployeeCommand {
     @TargetAggregateIdentifier
     private String id;
 
+    private String userId;
+
     private String firstName;
 
     private String lastName;

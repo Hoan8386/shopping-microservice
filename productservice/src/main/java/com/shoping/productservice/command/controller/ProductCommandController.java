@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.shoping.commonservice.service.CloudinaryStorageService;
 import com.shoping.commonservice.service.KafkaService;
 import com.shoping.commonservice.util.anotation.ApiMessage;
 import com.shoping.commonservice.util.anotation.ResponseId;
@@ -17,7 +18,6 @@ import com.shoping.productservice.command.command.CreateProductCommand;
 import com.shoping.productservice.command.command.DeleteProductCommand;
 import com.shoping.productservice.command.command.UpdateProductCommand;
 import com.shoping.productservice.command.model.ProductRequestModel;
-import com.shoping.productservice.command.service.CloudinaryStorageService;
 
 import jakarta.validation.Valid;
 

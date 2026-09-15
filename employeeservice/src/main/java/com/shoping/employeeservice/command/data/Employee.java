@@ -15,6 +15,9 @@ public class Employee {
     @Id
     private String id;
 
+    @Column(name = "user_id", unique = true, nullable = false)
+    private String userId;
+
     private String firstName;
 
     private String lastName;

@@ -1,7 +1,5 @@
 package com.shoping.employeeservice.command.controller;
 
-import java.util.UUID;
-
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +18,7 @@ import com.shoping.employeeservice.command.command.CreateEmployeeCommand;
 import com.shoping.employeeservice.command.command.DeleteEmployeeCommand;
 import com.shoping.employeeservice.command.command.UpdateEmployeeCommand;
 import com.shoping.employeeservice.command.model.EmployeeRequestModel;
+import com.shoping.employeeservice.service.EmployeeIdentityService;
 
 import jakarta.validation.Valid;
 
@@ -38,11 +37,16 @@ public class EmployeeCommandController {
     @Autowired
     private CommandGateway commandGateway;
 
+    @Autowired
+    private EmployeeIdentityService employeeIdentityService;
+
     @PostMapping
     @ApiMessage("Create employee")
     public ResponseEntity<ResponseId> createEmployee(@Valid @RequestBody EmployeeRequestModel model) {
+        String userId = employeeIdentityService.createEmployeeAccount(model);
         CreateEmployeeCommand command = new CreateEmployeeCommand(
-                UUID.randomUUID().toString(),
+                userId,
+                userId,
                 model.getFirstName(),
                 model.getLastName(),
                 model.getKin(),

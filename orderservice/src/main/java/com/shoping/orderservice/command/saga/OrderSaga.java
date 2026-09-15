@@ -13,6 +13,7 @@ import org.axonframework.spring.stereotype.Saga;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.shoping.commonservice.command.ClearCartCommand;
+import com.shoping.commonservice.command.RollBackCartCommand;
 import com.shoping.commonservice.command.RollbackProductDetailCommand;
 import com.shoping.commonservice.command.UpdateProductDetailCommand;
 import com.shoping.commonservice.exception.InsufficientStockException;
@@ -94,6 +95,7 @@ public class OrderSaga {
         } catch (Exception e) {
             rollbackProducts(processedItems);
             rollBackOrderRecord(event.getId());
+            rollBackCart(event.getId(),event.getUserId(), processedItems);
         }
     }
 
@@ -138,7 +140,8 @@ public class OrderSaga {
                 id);
     }
 
-    private  void rollBackCart( List<OrderItemDTO> processedItems , String userId) {
-        
+    private  void rollBackCart( String id, String userId ,List<OrderItemDTO> processedItems ) {
+        RollBackCartCommand rollBackCartCommand = new RollBackCartCommand(id,userId,processedItems); 
+        commandGateway.sendAndWait(rollBackCartCommand);
     }
 }

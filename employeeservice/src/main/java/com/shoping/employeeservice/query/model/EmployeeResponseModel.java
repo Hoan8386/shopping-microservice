@@ -13,6 +13,8 @@ public class EmployeeResponseModel {
 
     private String id;
 
+    private String userId;
+
     private String firstName;
 
     private String lastName;

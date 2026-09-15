@@ -34,6 +34,10 @@ public class EmployeeRequestModel {
     @Email(message = "Email must be a valid email address")
     private String email;
 
+    @NotBlank(message = "Password must not be blank")
+    @Size(min = 8, message = "Password must contain at least 8 characters")
+    private String password;
+
     @Size(max = 255, message = "Address must not exceed 255 characters")
     private String address;
 

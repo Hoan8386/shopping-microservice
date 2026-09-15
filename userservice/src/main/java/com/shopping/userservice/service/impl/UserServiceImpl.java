@@ -11,6 +11,7 @@ import com.shopping.userservice.dto.CreateUserRequestDTO;
 import com.shopping.userservice.dto.LoginRequestDTO;
 import com.shopping.userservice.dto.UserResponseDTO;
 import com.shopping.userservice.dto.identity.Credential;
+import com.shopping.userservice.dto.identity.RoleRepresentation;
 import com.shopping.userservice.dto.identity.TokenExchangeParam;
 import com.shopping.userservice.dto.identity.TokenExchangeResponse;
 import com.shopping.userservice.dto.identity.UserCreationParam;
@@ -54,21 +55,35 @@ public class UserServiceImpl implements IUserService {
                 .build());
 
         log.info("Token info {}", token);
-        var creationResponse = identityClient.createUser(UserCreationParam.builder()
-                .username(dto.getUsername())
-                .firstName(dto.getFirstName())
-                .lastName(dto.getLastName())
-                .email(dto.getEmail())
-                .enabled(true)
-                .emailVerified(false)
-                .credentials(List.of(Credential.builder()
-                        .type("password")
-                        .temporary(false)
-                        .value(dto.getPassword())
-                        .build()))
-                .build(), "Bearer " + token.getAccessToken());
+        String bearerToken = "Bearer " + token.getAccessToken();
+        var creationResponse = identityClient.createUser(
+            UserCreationParam.builder()
+                    .username(dto.getUsername())
+                    .firstName(dto.getFirstName())
+                    .lastName(dto.getLastName())
+                    .email(dto.getEmail())
+                    .enabled(true)
+                    .emailVerified(false)
+                    .credentials(List.of(
+                            Credential.builder()
+                                    .type("password")
+                                    .temporary(false)
+                                    .value(dto.getPassword())
+                                    .build()
+                    ))
+                    .build(),
+            bearerToken
+        );
 
         String userId = extractUserId(creationResponse);
+        RoleRepresentation customerRole =
+        identityClient.getRealmRole("CUSTOMER", bearerToken);
+
+        identityClient.assignRealmRole(
+                userId,
+                List.of(customerRole),
+                bearerToken
+        );
         log.info("UserId {}", userId);
 
         User user = new User();

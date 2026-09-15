@@ -1,5 +1,4 @@
-package com.shoping.productservice.command.service;
-
+package com.shoping.commonservice.service;
 
 import java.io.InputStream;
 import java.net.URL;
