@@ -19,6 +19,11 @@ spring:
               enabled: true
 
           routes:
+            - id: product-query-public
+              uri: http://localhost:9002
+              predicates:
+                - Path=/api/v1/public/product/**
+
             - id: userservice-public
               # uri: lb://userservice
               uri: http://localhost:9005

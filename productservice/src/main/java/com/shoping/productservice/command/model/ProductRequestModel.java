@@ -1,10 +1,11 @@
 package com.shoping.productservice.command.model;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,6 +35,5 @@ public class ProductRequestModel {
 
     private String idCategory;
 
-    @Pattern(regexp = "^(http|https)://.*$", message = "Image URL must be a valid URL")
-    private String imageUrl;
+    private MultipartFile image;
 }

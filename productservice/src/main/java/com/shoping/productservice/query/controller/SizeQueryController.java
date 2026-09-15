@@ -18,7 +18,7 @@ import com.shoping.productservice.query.queries.GetAllSizeQuery;
 import com.shoping.productservice.query.queries.GetSizeDetailQuery;
 
 @RestController
-@RequestMapping("/api/v1/product/size")
+@RequestMapping("/api/v1/public/product/size")
 public class SizeQueryController {
     @Autowired
     private QueryGateway queryGateway;

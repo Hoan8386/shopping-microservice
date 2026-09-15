@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.shoping.commonservice.util.anotation.ApiMessage;
 
 @RestController
-@RequestMapping("/api/v1/product/category")
+@RequestMapping("/api/v1/public/product/category")
 public class CategoryQueryController {
 
     @Autowired
